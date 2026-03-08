@@ -4,83 +4,78 @@ import { useState, useEffect, useCallback } from "react";
 const TIER_KEY = "myoracle_tier";
 
 const PLANETS = [
-  { name:"Sun",sym:"☉",c:"#f6ad3c",period:365.25,domain:"Identity · Purpose · Leadership",action:"Self-expression, authority moves, creative launches" },
-  { name:"Moon",sym:"☽",c:"#c4cdd4",period:27.32,domain:"Emotion · Intuition · Cycles",action:"Moving, family decisions, emotional commitments" },
-  { name:"Mercury",sym:"☿",c:"#45d0c8",period:87.97,domain:"Mind · Contracts · Communication",action:"Signing, negotiations, travel, learning" },
-  { name:"Venus",sym:"♀",c:"#e879a0",period:224.7,domain:"Love · Beauty · Values · Wealth",action:"Proposals, purchases, art, relationships" },
-  { name:"Mars",sym:"♂",c:"#e55050",period:686.97,domain:"Drive · Courage · Conflict · Energy",action:"Starting projects, physical challenges, asserting" },
-  { name:"Jupiter",sym:"♃",c:"#9b7fe6",period:4332.59,domain:"Growth · Luck · Expansion · Wisdom",action:"Big ventures, education, travel, legal, publishing" },
-  { name:"Saturn",sym:"♄",c:"#7a8594",period:10759.22,domain:"Structure · Karma · Discipline · Time",action:"Long-term commitments, career, foundations" },
-  { name:"Uranus",sym:"♅",c:"#38d6f5",period:30688.5,domain:"Revolution · Freedom · Surprise",action:"Breaking patterns, innovation, sudden shifts" },
-  { name:"Neptune",sym:"♆",c:"#7c8cf5",period:60182,domain:"Dreams · Spirit · Illusion · Healing",action:"Creative vision, healing, spiritual practice" },
-  { name:"Pluto",sym:"♇",c:"#b366e0",period:90560,domain:"Transformation · Power · Rebirth",action:"Deep change, releasing, endings → beginnings" },
+  { name:"Sun",sym:"☉",c:"#f6ad3c" },{ name:"Moon",sym:"☽",c:"#c4cdd4" },
+  { name:"Mercury",sym:"☿",c:"#45d0c8" },{ name:"Venus",sym:"♀",c:"#e879a0" },
+  { name:"Mars",sym:"♂",c:"#e55050" },{ name:"Jupiter",sym:"♃",c:"#9b7fe6" },
+  { name:"Saturn",sym:"♄",c:"#7a8594" },{ name:"Uranus",sym:"♅",c:"#38d6f5" },
+  { name:"Neptune",sym:"♆",c:"#7c8cf5" },{ name:"Pluto",sym:"♇",c:"#b366e0" },
 ];
 const SIGNS = [
-  { name:"Aries",sym:"♈",el:"fire",start:0,c:"#e55050",trait:"Initiative, courage" },
-  { name:"Taurus",sym:"♉",el:"earth",start:30,c:"#3dbd7d",trait:"Stability, persistence" },
-  { name:"Gemini",sym:"♊",el:"air",start:60,c:"#f6c23c",trait:"Curiosity, adaptability" },
-  { name:"Cancer",sym:"♋",el:"water",start:90,c:"#c4cdd4",trait:"Nurturing, emotional depth" },
-  { name:"Leo",sym:"♌",el:"fire",start:120,c:"#f6ad3c",trait:"Creativity, self-expression" },
-  { name:"Virgo",sym:"♍",el:"earth",start:150,c:"#45d0c8",trait:"Analysis, refinement" },
-  { name:"Libra",sym:"♎",el:"air",start:180,c:"#e879a0",trait:"Balance, harmony" },
-  { name:"Scorpio",sym:"♏",el:"water",start:210,c:"#b366e0",trait:"Intensity, transformation" },
-  { name:"Sagittarius",sym:"♐",el:"fire",start:240,c:"#9b7fe6",trait:"Adventure, wisdom" },
-  { name:"Capricorn",sym:"♑",el:"earth",start:270,c:"#7a8594",trait:"Ambition, mastery" },
-  { name:"Aquarius",sym:"♒",el:"air",start:300,c:"#38d6f5",trait:"Innovation, freedom" },
-  { name:"Pisces",sym:"♓",el:"water",start:330,c:"#7c8cf5",trait:"Intuition, compassion" },
+  {name:"Aries",sym:"♈",el:"fire",c:"#e55050",trait:"Initiative, courage"},
+  {name:"Taurus",sym:"♉",el:"earth",c:"#3dbd7d",trait:"Stability, persistence"},
+  {name:"Gemini",sym:"♊",el:"air",c:"#f6c23c",trait:"Curiosity, adaptability"},
+  {name:"Cancer",sym:"♋",el:"water",c:"#c4cdd4",trait:"Nurturing, emotional depth"},
+  {name:"Leo",sym:"♌",el:"fire",c:"#f6ad3c",trait:"Creativity, self-expression"},
+  {name:"Virgo",sym:"♍",el:"earth",c:"#45d0c8",trait:"Analysis, refinement"},
+  {name:"Libra",sym:"♎",el:"air",c:"#e879a0",trait:"Balance, harmony"},
+  {name:"Scorpio",sym:"♏",el:"water",c:"#b366e0",trait:"Intensity, transformation"},
+  {name:"Sagittarius",sym:"♐",el:"fire",c:"#9b7fe6",trait:"Adventure, wisdom"},
+  {name:"Capricorn",sym:"♑",el:"earth",c:"#7a8594",trait:"Ambition, mastery"},
+  {name:"Aquarius",sym:"♒",el:"air",c:"#38d6f5",trait:"Innovation, freedom"},
+  {name:"Pisces",sym:"♓",el:"water",c:"#7c8cf5",trait:"Intuition, compassion"},
 ];
 const ASPECTS = [
-  { name:"Conjunction",angle:0,orb:8,sym:"☌",power:10,nature:"fusion",c:"#f6ad3c" },
-  { name:"Sextile",angle:60,orb:5,sym:"⚹",power:4,nature:"opportunity",c:"#45d0c8" },
-  { name:"Square",angle:90,orb:7,sym:"□",power:8,nature:"tension",c:"#e55050" },
-  { name:"Trine",angle:120,orb:7,sym:"△",power:7,nature:"flow",c:"#3dbd7d" },
-  { name:"Opposition",angle:180,orb:8,sym:"☍",power:9,nature:"polarity",c:"#e879a0" },
+  {name:"Conjunction",angle:0,orb:8,sym:"☌",power:10,nature:"fusion",c:"#f6ad3c"},
+  {name:"Sextile",angle:60,orb:5,sym:"⚹",power:4,nature:"opportunity",c:"#45d0c8"},
+  {name:"Square",angle:90,orb:7,sym:"□",power:8,nature:"tension",c:"#e55050"},
+  {name:"Trine",angle:120,orb:7,sym:"△",power:7,nature:"flow",c:"#3dbd7d"},
+  {name:"Opposition",angle:180,orb:8,sym:"☍",power:9,nature:"polarity",c:"#e879a0"},
 ];
 const DOMAINS = [
-  { id:"career",name:"Career & Business",icon:"💼",rulers:["Sun","Saturn","Jupiter","Mars"],sub:"Launches, promotions, ventures, job changes" },
-  { id:"love",name:"Love & Relationships",icon:"💕",rulers:["Venus","Moon","Jupiter"],sub:"Commitments, proposals, difficult conversations" },
-  { id:"contracts",name:"Contracts & Signing",icon:"📜",rulers:["Mercury","Jupiter","Saturn"],sub:"Legal filings, negotiations, agreements, deals" },
-  { id:"travel",name:"Travel & Relocation",icon:"✈️",rulers:["Mercury","Jupiter","Moon"],sub:"Moving house, big journeys, relocation" },
-  { id:"health",name:"Health & Body",icon:"🌿",rulers:["Mars","Sun","Moon"],sub:"Surgery timing, new regimens, recovery" },
-  { id:"creative",name:"Creative Projects",icon:"🎨",rulers:["Venus","Neptune","Sun","Mercury"],sub:"Art, writing, launches, performances" },
-  { id:"learning",name:"Learning & Growth",icon:"📚",rulers:["Mercury","Jupiter","Saturn"],sub:"Courses, exams, study, certifications" },
-  { id:"spiritual",name:"Spiritual & Inner Work",icon:"🧘",rulers:["Neptune","Moon","Pluto"],sub:"Retreats, therapy, meditation, healing" },
-  { id:"financial",name:"Major Purchases",icon:"💰",rulers:["Venus","Jupiter","Saturn","Pluto"],sub:"Property, vehicles, investments, salary" },
+  {id:"career",name:"Career & Business",icon:"💼",rulers:["Sun","Saturn","Jupiter","Mars"],sub:"Launches, promotions, ventures, job changes, authority moves"},
+  {id:"love",name:"Love & Relationships",icon:"💕",rulers:["Venus","Moon","Jupiter"],sub:"Commitments, proposals, difficult conversations, deep connection"},
+  {id:"contracts",name:"Contracts & Signing",icon:"📜",rulers:["Mercury","Jupiter","Saturn"],sub:"Legal filings, negotiations, agreements, documents, deals"},
+  {id:"travel",name:"Travel & Relocation",icon:"✈️",rulers:["Mercury","Jupiter","Moon"],sub:"Moving house, big journeys, new environments, relocation"},
+  {id:"health",name:"Health & Body",icon:"🌿",rulers:["Mars","Sun","Moon"],sub:"Surgery timing, new regimens, recovery, lifestyle changes"},
+  {id:"creative",name:"Creative Projects",icon:"🎨",rulers:["Venus","Neptune","Sun","Mercury"],sub:"Art, writing, launches, performances, publishing"},
+  {id:"learning",name:"Learning & Growth",icon:"📚",rulers:["Mercury","Jupiter","Saturn"],sub:"Courses, exams, study, teaching, mentoring, certifications"},
+  {id:"spiritual",name:"Spiritual & Inner Work",icon:"🧘",rulers:["Neptune","Moon","Pluto"],sub:"Retreats, therapy, meditation, deep reflection, healing"},
+  {id:"financial",name:"Major Purchases",icon:"💰",rulers:["Venus","Jupiter","Saturn","Pluto"],sub:"Property, vehicles, investments, salary negotiations"},
 ];
 const QUICK_QS = [
-  { q:"Sign a contract today?",dom:"contracts",icon:"✍️" },
-  { q:"Start a new venture?",dom:"career",icon:"🚀" },
-  { q:"Have a difficult conversation?",dom:"love",icon:"💬" },
-  { q:"Move or relocate?",dom:"travel",icon:"🏠" },
-  { q:"Make a big purchase?",dom:"financial",icon:"💳" },
-  { q:"Launch creative work?",dom:"creative",icon:"🎨" },
-  { q:"Schedule surgery / health change?",dom:"health",icon:"💪" },
-  { q:"Start a course or exam prep?",dom:"learning",icon:"📖" },
+  {q:"Sign a contract today?",dom:"contracts",icon:"✍️"},
+  {q:"Start a new venture?",dom:"career",icon:"🚀"},
+  {q:"Have a difficult conversation?",dom:"love",icon:"💬"},
+  {q:"Move or relocate?",dom:"travel",icon:"🏠"},
+  {q:"Make a big purchase?",dom:"financial",icon:"💳"},
+  {q:"Launch creative work?",dom:"creative",icon:"🎨"},
+  {q:"Schedule surgery / health change?",dom:"health",icon:"💪"},
+  {q:"Start a course or exam prep?",dom:"learning",icon:"📖"},
 ];
 
 const TIERS = [
-  { id:1, name:"Basic", price:"$9.99", color:"#6b6580" },
-  { id:2, name:"Plus", price:"$29.99", color:"#9b7fe6" },
-  { id:3, name:"Pro", price:"$79.99", color:"#f6ad3c" },
-  { id:4, name:"Pro+", price:"$99.99", color:"#e879a0" },
+  {id:1,name:"Basic",price:"$9.99",color:"#6b6580"},
+  {id:2,name:"Plus",price:"$29.99",color:"#9b7fe6"},
+  {id:3,name:"Pro",price:"$79.99",color:"#f6ad3c"},
+  {id:4,name:"Pro+",price:"$99.99",color:"#e879a0"},
 ];
 
-const mod360 = (v:number) => ((v%360)+360)%360;
-const Eng = {
-  T: (d:Date) => { const y=d.getFullYear(),m=d.getMonth()+1,da=d.getDate(),a=Math.floor((14-m)/12),y1=y+4800-a,m1=m+12*a-3; return ((da+Math.floor((153*m1+2)/5)+365*y1+Math.floor(y1/4)-Math.floor(y1/100)+Math.floor(y1/400)-32045)-2451545.0)/36525; },
-  pos: (date:Date) => {
-    const T=Eng.T(date), d2=new Date(date); d2.setDate(d2.getDate()-1); const T2=Eng.T(d2);
+const mod360=(v:number)=>((v%360)+360)%360;
+const Eng={
+  T:(d:Date)=>{const y=d.getFullYear(),m=d.getMonth()+1,da=d.getDate(),a=Math.floor((14-m)/12),y1=y+4800-a,m1=m+12*a-3;return((da+Math.floor((153*m1+2)/5)+365*y1+Math.floor(y1/4)-Math.floor(y1/100)+Math.floor(y1/400)-32045)-2451545.0)/36525;},
+  pos:(date:Date)=>{
+    const T=Eng.T(date),d2=new Date(date);d2.setDate(d2.getDate()-1);const T2=Eng.T(d2);
     const R:any={Sun:280.4664567+360.0076983*T,Moon:218.3164477+481267.88123421*T,Mercury:252.2509+149472.6746*T,Venus:181.9798+58517.8157*T,Mars:355.4330+19140.2993*T,Jupiter:34.3515+3034.9057*T,Saturn:50.0774+1222.1138*T,Uranus:314.055+428.4677*T,Neptune:304.349+218.4862*T,Pluto:238.929+145.2078*T};
     const Y:any={Mercury:252.2509+149472.6746*T2,Venus:181.9798+58517.8157*T2,Mars:355.4330+19140.2993*T2,Jupiter:34.3515+3034.9057*T2,Saturn:50.0774+1222.1138*T2,Uranus:314.055+428.4677*T2,Neptune:304.349+218.4862*T2,Pluto:238.929+145.2078*T2};
-    return Object.entries(R).map(([name,lng]:any) => { const l=mod360(lng),sign=SIGNS[Math.floor(l/30)],planet=PLANETS.find(p=>p.name===name); let retro=false; if(Y[name]){let d=l-mod360(Y[name]);if(d>180)d-=360;if(d<-180)d+=360;retro=d<0;} return {name,lng:l,sign,degree:l%30,planet,retro}; });
+    return Object.entries(R).map(([name,lng]:any)=>{const l=mod360(lng),sign=SIGNS[Math.floor(l/30)],planet=PLANETS.find(p=>p.name===name);let retro=false;if(Y[name]){let d=l-mod360(Y[name]);if(d>180)d-=360;if(d<-180)d+=360;retro=d<0;}return{name,lng:l,sign,degree:l%30,planet,retro};});
   },
-  aspects: (p1:any[],p2:any[]) => {
+  aspects:(p1:any[],p2:any[])=>{
     const f:any[]=[],seen=new Set();
-    for(const a of p1) for(const b of p2){if(a.name===b.name)continue;let d=Math.abs(a.lng-b.lng);if(d>180)d=360-d;for(const asp of ASPECTS){const orb=Math.abs(d-asp.angle);if(orb<=asp.orb){const k=[a.name,b.name].sort().join("-")+asp.name;if(!seen.has(k)){seen.add(k);f.push({p1:a,p2:b,asp,orb:+orb.toFixed(1),strength:1-orb/asp.orb,exact:+((1-orb/asp.orb)*100).toFixed(0)});}}}}
+    for(const a of p1)for(const b of p2){if(a.name===b.name)continue;let d=Math.abs(a.lng-b.lng);if(d>180)d=360-d;for(const asp of ASPECTS){const orb=Math.abs(d-asp.angle);if(orb<=asp.orb){const k=[a.name,b.name].sort().join("-")+asp.name;if(!seen.has(k)){seen.add(k);f.push({p1:a,p2:b,asp,orb:+orb.toFixed(1),strength:1-orb/asp.orb,exact:+((1-orb/asp.orb)*100).toFixed(0)});}}}}
     return f.sort((a,b)=>b.strength-a.strength);
   },
-  moonPhase: (pos:any[]) => {
-    const m=pos.find(p=>p.name==="Moon"),s=pos.find(p=>p.name==="Sun"); if(!m||!s)return{name:"?",icon:"🌑",power:0,energy:""};
+  moonPhase:(pos:any[])=>{
+    const m=pos.find(p=>p.name==="Moon"),s=pos.find(p=>p.name==="Sun");if(!m||!s)return{name:"?",icon:"🌑",power:0,energy:""};
     const a=mod360(m.lng-s.lng);
     if(a<22.5)return{name:"New Moon",icon:"🌑",power:8,energy:"Set intentions. Plant seeds. Begin."};
     if(a<67.5)return{name:"Waxing Crescent",icon:"🌒",power:6,energy:"Building momentum. Take first steps."};
@@ -91,12 +86,14 @@ const Eng = {
     if(a<292.5)return{name:"Last Quarter",icon:"🌗",power:3,energy:"Release. Let go. Forgive."};
     return{name:"Balsamic Moon",icon:"🌘",power:2,energy:"Rest. Surrender. Prepare for renewal."};
   },
-  voc: (pos:any[]) => { const m=pos.find(p=>p.name==="Moon"); if(!m||m.degree<=27)return false; return !pos.some(p=>{if(p.name==="Moon")return false;let d=Math.abs(m.lng-p.lng);if(d>180)d=360-d;return ASPECTS.some(a=>Math.abs(d-a.angle)<=a.orb*0.4);}); },
-  scoreDomain: (dom:any,natal:any[],transit:any[],date:Date) => {
+  voc:(pos:any[])=>{const m=pos.find(p=>p.name==="Moon");if(!m||m.degree<=27)return false;return !pos.some(p=>{if(p.name==="Moon")return false;let d=Math.abs(m.lng-p.lng);if(d>180)d=360-d;return ASPECTS.some(a=>Math.abs(d-a.angle)<=a.orb*0.4);});},
+  scoreDomain:(dom:any,natal:any[],transit:any[],date:Date)=>{
     const aspects=Eng.aspects(transit,natal);
     const rel=aspects.filter((a:any)=>dom.rulers.includes(a.p1.name)||dom.rulers.includes(a.p2.name));
-    let score=0; const signals:any[]=[];
-    rel.forEach((a:any)=>{let imp=a.strength*a.asp.power;const ben=["Venus","Jupiter","Sun"].includes(a.p1.name);if(["flow","opportunity","fusion"].includes(a.asp.nature)){if(ben)imp*=1.5;score+=imp;signals.push({text:`${a.p1.planet?.sym} ${a.p1.name} ${a.asp.name} natal ${a.p2.name}`,val:+imp.toFixed(1),type:"green",conf:Math.min(9,Math.round(a.strength*10)),detail:`${a.asp.nature} energy — supports action (${a.exact}% exact)`});}else{if(["Saturn","Mars","Pluto"].includes(a.p1.name))imp*=1.4;score-=imp;signals.push({text:`${a.p1.planet?.sym} ${a.p1.name} ${a.asp.name} natal ${a.p2.name}`,val:-imp.toFixed(1),type:"red",conf:Math.min(9,Math.round(a.strength*10)),detail:`${a.asp.nature} energy — caution advised (${a.exact}% exact)`});}});
+    let score=0;const signals:any[]=[];
+    rel.forEach((a:any)=>{let imp=a.strength*a.asp.power;const ben=["Venus","Jupiter","Sun"].includes(a.p1.name);
+      if(["flow","opportunity","fusion"].includes(a.asp.nature)){if(ben)imp*=1.5;score+=imp;signals.push({text:`${a.p1.planet?.sym} ${a.p1.name} ${a.asp.name} natal ${a.p2.name}`,val:+imp.toFixed(1),type:"green",conf:Math.min(9,Math.round(a.strength*10)),detail:`${a.asp.nature} energy — supports action (${a.exact}% exact)`});}
+      else{if(["Saturn","Mars","Pluto"].includes(a.p1.name))imp*=1.4;score-=imp;signals.push({text:`${a.p1.planet?.sym} ${a.p1.name} ${a.asp.name} natal ${a.p2.name}`,val:-imp.toFixed(1),type:"red",conf:Math.min(9,Math.round(a.strength*10)),detail:`${a.asp.nature} energy — caution advised (${a.exact}% exact)`});}});
     transit.filter(p=>p.retro&&dom.rulers.includes(p.name)).forEach(p=>{const pen=p.name==="Mercury"?-8:p.name==="Venus"?-6:p.name==="Mars"?-7:-4;score+=pen;signals.push({text:`${p.planet?.sym} ${p.name} RETROGRADE in ${p.sign.name}`,val:pen,type:"warning",conf:8,detail:p.name==="Mercury"?"Avoid signing — miscommunication risk high":p.name==="Venus"?"Re-evaluate, don't commit to new":p.name==="Mars"?"Frustrated energy — action may backfire":"Deep review phase, not initiation"});});
     const mp=Eng.moonPhase(transit),waxing=["New Moon","Waxing Crescent","First Quarter","Waxing Gibbous"].includes(mp.name);
     if(["career","contracts","creative","learning"].includes(dom.id)){if(waxing){score+=4;signals.push({text:`${mp.icon} ${mp.name} — Waxing Phase`,val:4,type:"green",conf:6,detail:"Building energy supports new initiatives"});}else{score-=3;signals.push({text:`${mp.icon} ${mp.name} — Waning Phase`,val:-3,type:"caution",conf:5,detail:"Releasing phase — better for completing than starting"});}}
@@ -131,16 +128,6 @@ const Bullet=({children,color,conf,val,strong}:any)=>(
   </div>
 );
 
-const Locked=({tier,feature}:{tier:number,feature:string})=>(
-  <div style={{background:`${CL.card2}`,border:`1px dashed ${CL.bdr}`,borderRadius:12,padding:"20px",textAlign:"center",margin:"8px 0"}}>
-    <div style={{fontSize:20,marginBottom:8}}>🔒</div>
-    <div style={{fontFamily:"system-ui",fontSize:12,color:CL.dim,marginBottom:8}}>{feature}</div>
-    <a href="/pricing" style={{background:`linear-gradient(135deg,${CL.pur},${CL.acc})`,color:"#000",fontFamily:"system-ui",fontSize:10,fontWeight:700,letterSpacing:1,padding:"8px 18px",borderRadius:8,textDecoration:"none",display:"inline-block"}}>
-      UPGRADE TO TIER {tier}+
-    </a>
-  </div>
-);
-
 export default function OracleEngine() {
   const [dob,setDob]=useState("");
   const [targetDate,setTargetDate]=useState(new Date().toISOString().split("T")[0]);
@@ -149,19 +136,19 @@ export default function OracleEngine() {
   const [loading,setLoading]=useState(false);
   const [expanded,setExpanded]=useState<string|null>(null);
   const [tier,setTier]=useState(1);
-  const [showTierSelect,setShowTierSelect]=useState(true);
+  const [showTierBadge,setShowTierBadge]=useState(false);
   const [aiReading,setAiReading]=useState("");
   const [aiLoading,setAiLoading]=useState(false);
 
   useEffect(()=>{
     const saved=localStorage.getItem(TIER_KEY);
-    if(saved){setTier(parseInt(saved));setShowTierSelect(false);}
+    if(saved){setTier(parseInt(saved));setShowTierBadge(true);}
   },[]);
 
   const selectTier=(t:number)=>{
     setTier(t);
     localStorage.setItem(TIER_KEY,String(t));
-    setShowTierSelect(false);
+    setShowTierBadge(true);
   };
 
   const compute=useCallback(()=>{
@@ -174,26 +161,25 @@ export default function OracleEngine() {
       const retros=transit.filter(p=>p.retro);
       const sunSign=natal.find(p=>p.name==="Sun").sign;
       const moonSign=natal.find(p=>p.name==="Moon").sign;
-      const elements:any={fire:0,earth:0,air:0,water:0};natal.forEach(p=>{if(p.sign)elements[p.sign.el]++;});
+      const elements:any={fire:0,earth:0,air:0,water:0};natal.forEach((p:any)=>{if(p.sign)elements[p.sign.el]++;});
       const domains=DOMAINS.map(d=>({...d,...Eng.scoreDomain(d,natal,transit,tDate)})).sort((a:any,b:any)=>b.score-a.score);
       const overall=domains.reduce((s:number,d:any)=>s+d.score,0)/domains.length;
       const overallConf=Math.round(domains.reduce((s:number,d:any)=>s+d.confidence,0)/domains.length);
       const totalGreen=domains.reduce((s:number,d:any)=>s+d.greenCount,0);
       const totalRed=domains.reduce((s:number,d:any)=>s+d.redCount,0);
       const overallConv=totalGreen+totalRed?Math.round(Math.max(totalGreen,totalRed)/(totalGreen+totalRed)*100):50;
-      const forecastDays=tier>=2?30:7;
-      const forecast=[];
-      for(let i=0;i<forecastDays;i++){const d=new Date(tDate);d.setDate(d.getDate()+i);const dt=Eng.pos(d);const ds=DOMAINS.map(dm=>({...dm,...Eng.scoreDomain(dm,natal,dt,d)}));const avg=ds.reduce((s:number,x:any)=>s+x.score,0)/ds.length;const best=ds.reduce((b:any,x:any)=>x.score>b.score?x:b,ds[0]);const worst=ds.reduce((b:any,x:any)=>x.score<b.score?x:b,ds[0]);forecast.push({date:d,overall:avg,best,worst,moonPhase:Eng.moonPhase(dt),domains:ds});}
+      const forecast:any[]=[];
+      for(let i=0;i<30;i++){const d=new Date(tDate);d.setDate(d.getDate()+i);const dt=Eng.pos(d);const ds=DOMAINS.map(dm=>({...dm,...Eng.scoreDomain(dm,natal,dt,d)}));const avg=ds.reduce((s:number,x:any)=>s+x.score,0)/ds.length;const best=ds.reduce((b:any,x:any)=>x.score>b.score?x:b,ds[0]);const worst=ds.reduce((b:any,x:any)=>x.score<b.score?x:b,ds[0]);forecast.push({date:d,overall:avg,best,worst,moonPhase:Eng.moonPhase(dt),domains:ds});}
       const bestDays=DOMAINS.map((dom,di)=>{const sorted=[...forecast].sort((a:any,b:any)=>b.domains[di].score-a.domains[di].score);return{domain:dom,top3:sorted.slice(0,3).map(f=>({date:f.date,score:f.domains[di].score,conf:f.domains[di].confidence})),bottom3:sorted.slice(-3).reverse().map(f=>({date:f.date,score:f.domains[di].score}))};});
       setData({natal,transit,allAspects,mp,voc,retros,sunSign,moonSign,elements,domains,overall,overallConf,overallConv,totalGreen,totalRed,forecast,bestDays});
       setLoading(false);
     },500);
-  },[dob,targetDate,tier]);
+  },[dob,targetDate]);
 
   useEffect(()=>{if(dob)compute();},[dob,targetDate]);
 
   const getAiReading=async()=>{
-    if(!data)return;setAiLoading(true);
+    if(!data)return;setAiLoading(true);setAiReading("");
     const summary=`Date: ${targetDate}, Overall score: ${data.overall.toFixed(0)}, Top domain: ${data.domains[0].name} (${data.domains[0].score.toFixed(0)}), Bottom domain: ${data.domains[data.domains.length-1].name} (${data.domains[data.domains.length-1].score.toFixed(0)}), Moon: ${data.mp.name}, Retrogrades: ${data.retros.map((r:any)=>r.name).join(",")||"none"}, VOC: ${data.voc}`;
     try{
       const res=await fetch("/api/interpret",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({summary})});
@@ -204,12 +190,11 @@ export default function OracleEngine() {
   };
 
   const SC={card:{background:CL.card,border:`1px solid ${CL.bdr}`,borderRadius:14,padding:18,marginBottom:12}};
-  const TB=({id,label,icon,minTier=1}:{id:string,label:string,icon:string,minTier?:number})=>{
-    const locked=tier<minTier;
-    return(<button onClick={()=>!locked&&setTab(id)} style={{background:tab===id?CL.acc:"transparent",color:tab===id?"#000":locked?CL.mut:CL.dim,border:`1px solid ${tab===id?CL.acc:locked?CL.mut:CL.bdr}`,borderRadius:10,padding:"8px 14px",fontSize:11,fontWeight:700,cursor:locked?"not-allowed":"pointer",fontFamily:"system-ui",position:"relative"}}>
-      {icon} {label} {locked&&<span style={{fontSize:9}}>🔒</span>}
-    </button>);
-  };
+  const TB=({id,label,icon}:{id:string,label:string,icon:string})=>(
+    <button onClick={()=>setTab(id)} style={{background:tab===id?CL.acc:"transparent",color:tab===id?"#000":CL.dim,border:`1px solid ${tab===id?CL.acc:CL.bdr}`,borderRadius:10,padding:"8px 14px",fontSize:11,fontWeight:700,cursor:"pointer",fontFamily:"system-ui"}}>
+      {icon} {label}
+    </button>
+  );
   const SH=({icon,title,sub,color}:any)=>(
     <div style={{marginBottom:12}}>
       <div style={{fontSize:10,letterSpacing:3,color:color||CL.acc,fontWeight:700,fontFamily:"system-ui"}}>{icon}</div>
@@ -219,57 +204,27 @@ export default function OracleEngine() {
   );
   const HR=()=><div style={{height:1,background:CL.bdr,margin:"14px 0"}}/>;
 
-  // TIER SELECTOR SCREEN
-  if(showTierSelect){
-    return(
-      <div style={{background:CL.bg,minHeight:"100vh",padding:"40px 16px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-        <div style={{fontSize:10,letterSpacing:4,color:CL.pur,fontFamily:"system-ui",fontWeight:700,marginBottom:8}}>SELECT YOUR PLAN</div>
-        <h2 style={{fontFamily:"Cormorant Garamond, serif",fontSize:36,fontWeight:300,fontStyle:"italic",marginBottom:8,textAlign:"center"}}>Choose your Oracle</h2>
-        <p style={{fontSize:13,color:CL.dim,marginBottom:40,textAlign:"center",fontFamily:"system-ui"}}>Select a tier to begin — you can change this anytime</p>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:16,maxWidth:960,width:"100%"}}>
-          {TIERS.map(t=>(
-            <div key={t.id} onClick={()=>selectTier(t.id)} style={{background:CL.card,border:`1px solid ${t.id===3?t.color:CL.bdr}`,borderRadius:16,padding:28,cursor:"pointer",transition:"all 0.2s",position:"relative"}}
-              onMouseEnter={e=>{(e.currentTarget as HTMLElement).style.borderColor=t.color;(e.currentTarget as HTMLElement).style.transform="translateY(-4px)";}}
-              onMouseLeave={e=>{(e.currentTarget as HTMLElement).style.borderColor=t.id===3?t.color:CL.bdr;(e.currentTarget as HTMLElement).style.transform="translateY(0)";}}>
-              {t.id===3&&<div style={{position:"absolute",top:12,right:12,background:t.color,color:"#000",fontSize:8,fontWeight:700,fontFamily:"system-ui",letterSpacing:1,padding:"3px 8px",borderRadius:4}}>POPULAR</div>}
-              <div style={{fontSize:9,letterSpacing:2,color:t.color,fontFamily:"system-ui",fontWeight:700,marginBottom:4}}>TIER {t.id}</div>
-              <div style={{fontFamily:"Syncopate, sans-serif",fontSize:18,fontWeight:700,marginBottom:4}}>{t.name}</div>
-              <div style={{fontFamily:"system-ui",fontSize:28,fontWeight:900,color:t.color,marginBottom:16}}>{t.price}<span style={{fontSize:12,color:CL.dim,fontWeight:400}}>/mo</span></div>
-              <div style={{fontSize:11,color:CL.dim,fontFamily:"system-ui",lineHeight:1.6}}>
-                {t.id===1&&"Scores & verdicts · 7-day forecast · Should I...?"}
-                {t.id===2&&"Full signal breakdown · 30-day forecast · Chart view"}
-                {t.id===3&&"Birth time + location · Deep domain specialisations · Natal patterns"}
-                {t.id===4&&"AI Oracle voice · Daily push readings · Full everything"}
-              </div>
-              <div style={{marginTop:20,background:`linear-gradient(135deg,${CL.pur},${t.color})`,color:"#000",fontFamily:"system-ui",fontSize:10,fontWeight:700,letterSpacing:1,padding:"10px",borderRadius:8,textAlign:"center"}}>
-                SELECT {t.name.toUpperCase()}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  const tierInfo=TIERS.find(t=>t.id===tier)||TIERS[0];
 
-  const tierInfo=TIERS.find(t=>t.id===tier)!;
-
-  return (
+  return(
     <div style={{background:CL.bg,color:CL.txt,minHeight:"100vh",fontFamily:"'Georgia','Palatino',serif",padding:"10px 14px",maxWidth:720,margin:"0 auto"}}>
-      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}@keyframes glow{0%,100%{text-shadow:0 0 15px #f6ad3c44}50%{text-shadow:0 0 30px #f6ad3c88,0 0 60px #9b7fe644}}input[type="date"]{font-family:inherit}*{box-sizing:border-box}`}</style>
+      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}@keyframes glow{0%,100%{text-shadow:0 0 15px #f6ad3c44}50%{text-shadow:0 0 30px #f6ad3c88,0 0 60px #9b7fe644}}input[type="date"]{font-family:inherit}input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7)}*{box-sizing:border-box}`}</style>
 
       {/* HEADER */}
       <div style={{textAlign:"center",padding:"18px 0 10px"}}>
         <div style={{fontSize:10,letterSpacing:6,color:CL.pur,fontWeight:700,fontFamily:"system-ui"}}>ORACLE v3</div>
         <h1 style={{fontSize:24,fontWeight:400,margin:"4px 0",fontStyle:"italic",background:`linear-gradient(135deg,${CL.acc},${CL.pnk},${CL.pur})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",animation:"glow 5s ease infinite"}}>Personal Decision Oracle</h1>
-        {/* Tier badge + change */}
-        <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,marginTop:6}}>
-          <div style={{background:`${tierInfo.color}20`,border:`1px solid ${tierInfo.color}40`,borderRadius:20,padding:"4px 12px",fontSize:10,fontFamily:"system-ui",fontWeight:700,color:tierInfo.color}}>
-            {tierInfo.name} — {tierInfo.price}/mo
-          </div>
-          <button onClick={()=>setShowTierSelect(true)} style={{background:"transparent",border:`1px solid ${CL.bdr}`,borderRadius:20,padding:"4px 10px",fontSize:9,color:CL.dim,cursor:"pointer",fontFamily:"system-ui"}}>
-            change tier
-          </button>
+
+        {/* Tier switcher — always visible for testing */}
+        <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginTop:8,flexWrap:"wrap"}}>
+          <span style={{fontSize:9,color:CL.dim,fontFamily:"system-ui",letterSpacing:1}}>PLAN:</span>
+          {TIERS.map(t=>(
+            <button key={t.id} onClick={()=>selectTier(t.id)} style={{background:tier===t.id?`${t.color}25`:"transparent",color:tier===t.id?t.color:CL.mut,border:`1px solid ${tier===t.id?t.color:CL.bdr}`,borderRadius:20,padding:"3px 12px",fontSize:9,fontWeight:700,cursor:"pointer",fontFamily:"system-ui",letterSpacing:1,transition:"all 0.15s"}}>
+              {t.name}
+            </button>
+          ))}
         </div>
+        <div style={{fontSize:9,color:CL.dim,fontFamily:"system-ui",marginTop:4,fontStyle:"italic"}}>Viewing as: {tierInfo.name} ({tierInfo.price}/mo) — all features unlocked for testing</div>
       </div>
 
       {/* DOB INPUT */}
@@ -290,24 +245,25 @@ export default function OracleEngine() {
       </div>
 
       {data&&(<>
-        {/* TABS */}
+        {/* TABS — all visible */}
         <div style={{display:"flex",gap:5,flexWrap:"wrap",justifyContent:"center",marginBottom:10}}>
           <TB id="reading" label="Full Reading" icon="🔮"/>
           <TB id="shouldi" label="Should I...?" icon="🤔"/>
-          <TB id="calendar" label={tier>=2?"30-Day":"7-Day"} icon="📅"/>
-          <TB id="bestdays" label="Best Days" icon="⭐" minTier={2}/>
-          <TB id="chart" label="Chart" icon="🌌" minTier={2}/>
+          <TB id="calendar" label="30-Day" icon="📅"/>
+          <TB id="bestdays" label="Best Days" icon="⭐"/>
+          <TB id="chart" label="Chart" icon="🌌"/>
         </div>
 
-        {/* FULL READING */}
+        {/* ===== FULL READING ===== */}
         {tab==="reading"&&(<>
           <div style={SC.card}>
-            <SH icon="📊" title="SITUATION ASSESSMENT" sub={`Reading for ${fmtDL(new Date(targetDate))}`}/>
-            <Bullet strong={`${data.sunSign.sym} Sun in ${data.sunSign.name}`}>Your core identity — {data.sunSign.trait.toLowerCase()}</Bullet>
+            <SH icon="📊" title="SITUATION ASSESSMENT" sub={`Personal Reading for ${fmtDL(new Date(targetDate))}`}/>
+            <Bullet strong={`${data.sunSign.sym} Sun in ${data.sunSign.name}`}>Your core identity and purpose — {data.sunSign.trait.toLowerCase()}</Bullet>
             <Bullet strong={`${data.moonSign.sym} Moon in ${data.moonSign.name}`}>Your emotional nature and instinct patterns</Bullet>
             <Bullet strong={`${data.mp.icon} ${data.mp.name}`}>{data.mp.energy}</Bullet>
-            {data.voc&&<Bullet strong="🚫 Void of Course Moon" color={CL.red}>Actions started now tend to not go as planned.</Bullet>}
-            {data.retros.map((r:any)=><Bullet key={r.name} strong={`${r.planet?.sym} ${r.name} Retrograde`} color={CL.acc}>{r.name==="Mercury"?"Avoid signing — double-check everything":r.name==="Venus"?"Not ideal for new commitments":r.name==="Mars"?"Don't force outcomes":"Deep review energy"}</Bullet>)}
+            {data.voc&&<Bullet strong="🚫 Void of Course Moon" color={CL.red}>Actions started now tend to not go as planned. Delay important decisions if possible.</Bullet>}
+            {data.retros.map((r:any)=><Bullet key={r.name} strong={`${r.planet?.sym} ${r.name} Retrograde in ${r.sign.name}`} color={CL.acc}>{r.name==="Mercury"?"Contracts, communication, and travel are disrupted — avoid signing, double-check everything":r.name==="Venus"?"Values and relationships under review — not ideal for new commitments":r.name==="Mars"?"Action is frustrated, delays likely — don't force outcomes":"Deep review energy, not initiation energy"}</Bullet>)}
+            <Bullet strong="Elemental Balance">🔥 Fire: {data.elements.fire} · 🌍 Earth: {data.elements.earth} · 💨 Air: {data.elements.air} · 💧 Water: {data.elements.water}</Bullet>
           </div>
 
           <div style={{...SC.card,background:`linear-gradient(150deg,${CL.card},${data.overall>15?"#0d1a10":data.overall<-15?"#1a0d0d":"#1a1708"})`}}>
@@ -315,96 +271,154 @@ export default function OracleEngine() {
             <div style={{fontSize:15,color:vColor(data.overall),fontWeight:600,fontFamily:"system-ui",marginBottom:14}}>{vText(data.overall)}</div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(130px,1fr))",gap:12}}>
               {[
-                {label:"OVERALL SCORE",value:`${data.overall>0?"+":""}${data.overall.toFixed(0)}`,color:vColor(data.overall)},
-                {label:"CONFIDENCE",value:`${data.overallConf}/10`,color:CL.acc},
-                {label:"CONVERGENCE",value:`${data.overallConv}%`,color:data.overallConv>70?CL.grn:data.overallConv>55?CL.acc:CL.red},
-                {label:"SIGNAL BALANCE",value:`▲${data.totalGreen} / ▼${data.totalRed}`,color:data.totalGreen>data.totalRed?CL.grn:CL.red},
+                {label:"OVERALL SCORE",value:`${data.overall>0?"+":""}${data.overall.toFixed(0)}`,color:vColor(data.overall),sub:"Weighted average across all 9 life domains"},
+                {label:"CONFIDENCE",value:`${data.overallConf}/10`,color:CL.acc,sub:confText(data.overallConf)+" — based on signal strength"},
+                {label:"CONVERGENCE",value:`${data.overallConv}%`,color:data.overallConv>70?CL.grn:data.overallConv>55?CL.acc:CL.red,sub:data.overallConv>70?"Strong signal agreement":"Mixed signals"},
+                {label:"SIGNAL BALANCE",value:`▲${data.totalGreen} / ▼${data.totalRed}`,color:data.totalGreen>data.totalRed?CL.grn:CL.red,sub:`${data.totalGreen} supportive vs ${data.totalRed} challenging`},
               ].map(m=>(
                 <div key={m.label} style={{background:CL.card2,borderRadius:10,padding:12,borderTop:`2px solid ${m.color}`}}>
                   <div style={{fontSize:8,letterSpacing:2,color:CL.dim,fontFamily:"system-ui",fontWeight:700}}>{m.label}</div>
                   <div style={{fontSize:24,fontWeight:900,color:m.color,fontFamily:"system-ui",margin:"4px 0"}}>{m.value}</div>
+                  <div style={{fontSize:9,color:CL.dim,fontFamily:"system-ui",lineHeight:1.4}}>{m.sub}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* AI READING — Tier 3+ only */}
-          {tier>=3?(
-            <div style={{...SC.card,borderColor:CL.pur+"40"}}>
-              <SH icon="🔮" title="ORACLE AI INTERPRETATION" sub="Claude reads your chart in Oracle voice" color={CL.pur}/>
-              {aiReading?(
-                <div style={{fontSize:13,lineHeight:1.9,color:CL.txt,fontFamily:"Georgia,serif",fontStyle:"italic"}}>{aiReading}</div>
-              ):(
-                <button onClick={getAiReading} disabled={aiLoading} style={{background:`linear-gradient(135deg,${CL.pur},${CL.acc})`,color:"#000",border:"none",borderRadius:10,padding:"12px 28px",fontSize:12,fontWeight:800,cursor:"pointer",fontFamily:"system-ui",letterSpacing:1,width:"100%"}}>
-                  {aiLoading?"✨ Oracle is reading your chart...":"✨ Get AI Oracle Interpretation"}
-                </button>
-              )}
-            </div>
-          ):(
-            <Locked tier={3} feature="AI Oracle Interpretation — Oracle speaks your reading in its own voice"/>
-          )}
+          {/* AI READING */}
+          <div style={{...SC.card,borderColor:CL.pur+"40"}}>
+            <SH icon="✨" title="ORACLE AI INTERPRETATION" sub="Claude reads your chart in Oracle voice" color={CL.pur}/>
+            {aiReading?(
+              <div style={{fontSize:13,lineHeight:1.9,color:CL.txt,fontFamily:"Georgia,serif",fontStyle:"italic"}}>{aiReading}</div>
+            ):(
+              <button onClick={getAiReading} disabled={aiLoading} style={{background:`linear-gradient(135deg,${CL.pur},${CL.acc})`,color:"#000",border:"none",borderRadius:10,padding:"12px 28px",fontSize:12,fontWeight:800,cursor:"pointer",fontFamily:"system-ui",letterSpacing:1,width:"100%",opacity:aiLoading?0.6:1}}>
+                {aiLoading?"✨ Oracle is reading your chart...":"✨ Get AI Oracle Interpretation"}
+              </button>
+            )}
+            {aiReading&&<button onClick={()=>setAiReading("")} style={{marginTop:10,background:"transparent",border:`1px solid ${CL.bdr}`,borderRadius:8,padding:"6px 14px",fontSize:10,color:CL.dim,cursor:"pointer",fontFamily:"system-ui"}}>↩ New reading</button>}
+          </div>
 
           {/* DOMAIN BY DOMAIN */}
           <div style={SC.card}>
-            <SH icon="📋" title="DOMAIN-BY-DOMAIN ANALYSIS" sub="Tap any domain for full signal breakdown"/>
+            <SH icon="📋" title="DOMAIN-BY-DOMAIN ANALYSIS" sub="Ranked by score — tap any domain for full signal breakdown"/>
             {data.domains.map((d:any)=>(
-              <div key={d.id} onClick={()=>setExpanded(expanded===d.id?null:d.id)} style={{background:CL.card2,borderRadius:12,padding:"14px 16px",marginBottom:8,cursor:"pointer",borderLeft:`4px solid ${vColor(d.score)}`}}>
+              <div key={d.id} onClick={()=>setExpanded(expanded===d.id?null:d.id)} style={{background:CL.card2,borderRadius:12,padding:"14px 16px",marginBottom:8,cursor:"pointer",borderLeft:`4px solid ${vColor(d.score)}`,transition:"all 0.2s"}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
                   <div>
                     <div style={{fontSize:15,fontWeight:700,fontFamily:"system-ui"}}>{d.icon} {d.name}</div>
-                    <div style={{fontSize:10,color:CL.dim,fontFamily:"system-ui"}}>{d.sub}</div>
+                    <div style={{fontSize:10,color:CL.dim,fontFamily:"system-ui",marginTop:1}}>{d.sub}</div>
                   </div>
                   <div style={{fontSize:26,fontWeight:900,color:vColor(d.score),fontFamily:"system-ui",lineHeight:1}}>{d.score>0?"+":""}{d.score.toFixed(0)}</div>
                 </div>
                 <div style={{display:"flex",gap:14,marginTop:8,flexWrap:"wrap",fontFamily:"system-ui",fontSize:11,color:CL.dim}}>
-                  <span>Confidence: <b style={{color:CL.acc}}>{d.confidence}/10</b></span>
-                  <span>Convergence: <b style={{color:d.convergence>65?CL.grn:CL.acc}}>{d.convergence}%</b></span>
+                  <span>Confidence: <b style={{color:CL.acc}}>{d.confidence}/10</b> <span style={{fontStyle:"italic"}}>({confText(d.confidence)})</span></span>
+                  <span>Convergence: <b style={{color:d.convergence>65?CL.grn:d.convergence>50?CL.acc:CL.red}}>{d.convergence}%</b></span>
+                  <span>Signals: <b style={{color:CL.grn}}>▲{d.greenCount}</b> / <b style={{color:CL.red}}>▼{d.redCount}</b></span>
                 </div>
-                {/* Signal breakdown — Tier 2+ */}
                 {expanded===d.id&&(
-                  tier>=2?(
-                    <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${CL.bdr}`}}>
-                      <div style={{fontSize:10,letterSpacing:2,color:CL.acc,fontWeight:700,fontFamily:"system-ui",marginBottom:6}}>SIGNAL BREAKDOWN</div>
-                      {d.signals.map((s:any,j:number)=>(
-                        <Bullet key={j} strong={s.text} color={s.type==="green"?CL.grn:s.type==="red"||s.type==="warning"?CL.red:CL.acc} conf={s.conf} val={s.val}>{s.detail}</Bullet>
-                      ))}
-                    </div>
-                  ):(
-                    <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${CL.bdr}`,textAlign:"center"}}>
-                      <div style={{fontSize:11,color:CL.dim,fontFamily:"system-ui",marginBottom:8}}>🔒 Signal breakdown available on Plus and above</div>
-                      <a href="/pricing" style={{color:CL.pur,fontSize:11,fontFamily:"system-ui",fontWeight:700}}>Upgrade to Plus →</a>
-                    </div>
-                  )
+                  <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${CL.bdr}`,animation:"fadeUp 0.3s ease"}}>
+                    <div style={{fontSize:10,letterSpacing:2,color:CL.acc,fontWeight:700,fontFamily:"system-ui",marginBottom:6}}>SIGNAL BREAKDOWN</div>
+                    {d.signals.map((s:any,j:number)=>(
+                      <Bullet key={j} strong={s.text} color={s.type==="green"?CL.grn:s.type==="red"||s.type==="warning"?CL.red:CL.acc} conf={s.conf} val={s.val}>{s.detail}</Bullet>
+                    ))}
+                  </div>
                 )}
               </div>
             ))}
           </div>
+
+          {/* CROSS DOMAIN */}
+          <div style={SC.card}>
+            <SH icon="🔗" title="CROSS-DOMAIN CONVERGENCE THEMES" sub="High-confidence calls across multiple domains"/>
+            <HR/>
+            <div style={{fontSize:13,fontWeight:800,color:CL.grn,fontFamily:"system-ui",marginBottom:6}}>🟢 STRONGEST DOMAINS</div>
+            {data.domains.filter((d:any)=>d.score>5).length>0
+              ?data.domains.filter((d:any)=>d.score>5).map((d:any)=>(
+                <Bullet key={d.id} strong={`${d.icon} ${d.name}`} color={CL.grn} conf={d.confidence}>{d.score>30?"Strongly supported":"Supported"} — {d.greenCount} positive signals, {d.convergence}% convergence</Bullet>
+              ))
+              :<Bullet color={CL.dim}>No domains show strongly favorable conditions today.</Bullet>}
+            <div style={{height:10}}/>
+            <div style={{fontSize:13,fontWeight:800,color:CL.red,fontFamily:"system-ui",marginBottom:6}}>🔴 WEAKEST DOMAINS</div>
+            {data.domains.filter((d:any)=>d.score<-5).length>0
+              ?data.domains.filter((d:any)=>d.score<-5).sort((a:any,b:any)=>a.score-b.score).map((d:any)=>(
+                <Bullet key={d.id} strong={`${d.icon} ${d.name}`} color={CL.red} conf={d.confidence}>{d.score<-30?"Strongly unfavorable":"Challenging"} — {d.redCount} caution signals</Bullet>
+              ))
+              :<Bullet color={CL.dim}>No domains show strongly unfavorable conditions today.</Bullet>}
+          </div>
+
+          {/* KEY WATCHPOINTS */}
+          <div style={SC.card}>
+            <SH icon="👁️" title="KEY WATCHPOINTS TODAY" sub="Factors that will shape how this day unfolds"/>
+            {[
+              ...(data.retros.length>0?[`**${data.retros.map((r:any)=>r.name).join(", ")} retrograde** — ${data.retros.some((r:any)=>r.name==="Mercury")?"contracts and communication especially disrupted":"action is sluggish, review rather than initiate"}`]:[]),
+              `**Moon Phase: ${data.mp.name}** — ${data.mp.energy} Power: ${data.mp.power}/10`,
+              ...(data.voc?["**Void of Course Moon** — Actions initiated now tend to fizzle. Wait if you can."]:["**Moon is active** — Lunar energy supports decisions taken today."]),
+              `**Element dominance: ${Object.entries(data.elements).sort((a:any,b:any)=>b[1]-a[1])[0][0]}** — Your natal chart colours how you process today's energy`,
+              `**${data.allAspects.length} active transit aspects** — ${data.allAspects.length>15?"Very busy sky":"Moderate activation"}`,
+              `**Strongest aspect:** ${data.allAspects[0]?`${data.allAspects[0].p1.name} ${data.allAspects[0].asp.name} ${data.allAspects[0].p2.name} (${data.allAspects[0].exact}% exact)`:"None"}`,
+            ].map((wp:string,i:number)=>(
+              <div key={i} style={{display:"flex",gap:10,padding:"7px 0",borderBottom:`1px solid ${CL.bdr}33`,fontFamily:"system-ui",fontSize:12,lineHeight:1.6,color:CL.txt}}>
+                <span style={{color:CL.acc,fontWeight:800,minWidth:18}}>{i+1}.</span>
+                <span dangerouslySetInnerHTML={{__html:wp.replace(/\*\*(.*?)\*\*/g,`<b style="color:${CL.acc}">$1</b>`)}}/>
+              </div>
+            ))}
+          </div>
+
+          {/* ORACLE SELF-ASSESSMENT */}
+          <div style={{...SC.card,borderColor:CL.pur+"30"}}>
+            <SH icon="🔮" title="ORACLE SELF-ASSESSMENT" color={CL.pur}/>
+            <div style={{marginBottom:14}}>
+              <div style={{fontSize:12,fontWeight:800,color:CL.grn,fontFamily:"system-ui",marginBottom:6}}>What I'm most confident about:</div>
+              {data.domains.filter((d:any)=>d.confidence>=6).slice(0,4).map((d:any)=>(
+                <Bullet key={d.id} color={CL.grn}>{d.icon} {d.name} is {d.score>0?"favorable":"challenging"} today ({d.confidence}/10) — {d.convergence}% convergence</Bullet>
+              ))}
+            </div>
+            <div style={{marginBottom:14}}>
+              <div style={{fontSize:12,fontWeight:800,color:CL.red,fontFamily:"system-ui",marginBottom:6}}>What I'm least confident about:</div>
+              {data.domains.filter((d:any)=>d.confidence<=5).length>0
+                ?data.domains.filter((d:any)=>d.confidence<=5).slice(0,3).map((d:any)=>(
+                  <Bullet key={d.id} color={CL.dim}>{d.icon} {d.name} — Mixed signals ({d.confidence}/10), {d.convergence}% convergence</Bullet>
+                ))
+                :<Bullet color={CL.dim}>All domains show moderate-to-high confidence today.</Bullet>}
+            </div>
+            <div>
+              <div style={{fontSize:12,fontWeight:800,color:CL.acc,fontFamily:"system-ui",marginBottom:6}}>Biggest risks to this reading:</div>
+              <Bullet color={CL.acc}>Simplified orbital calculations — positions may differ ~1-2° from precision ephemeris</Bullet>
+              <Bullet color={CL.acc}>Birth time unknown — Rising sign and houses are approximated</Bullet>
+              <Bullet color={CL.acc}>Free will overrides all cosmic signals — these are inclinations, not determinations</Bullet>
+            </div>
+          </div>
         </>)}
 
-        {/* SHOULD I */}
+        {/* ===== SHOULD I ===== */}
         {tab==="shouldi"&&(
           <div style={SC.card}>
             <SH icon="🤔" title="SHOULD I...?" sub={fmtDL(new Date(targetDate))}/>
             {QUICK_QS.map(qd=>{
               const d=data.domains.find((x:any)=>x.id===qd.dom);
-              const answer=d.score>30?"YES — Strong cosmic support":d.score>10?"Likely YES — Favorable":d.score>-10?"MIXED — Proceed with awareness":d.score>-30?"Probably NOT — Consider waiting":"NO — Strong signals against";
+              const answer=d.score>30?"YES — Strong cosmic support. Confidence "+d.confidence+"/10":d.score>10?"Likely YES — Favorable. Confidence "+d.confidence+"/10":d.score>-10?"MIXED — Proceed with awareness. Confidence "+d.confidence+"/10":d.score>-30?"Probably NOT — Consider waiting. Confidence "+d.confidence+"/10":"NO — Strong signals against. Confidence "+d.confidence+"/10";
               return(
                 <div key={qd.q} style={{background:CL.card2,borderRadius:12,padding:16,marginBottom:8,borderLeft:`4px solid ${vColor(d.score)}`}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                     <div style={{fontSize:15,fontWeight:700,fontFamily:"system-ui"}}>{qd.icon} {qd.q}</div>
                     <div style={{fontSize:22,fontWeight:900,color:vColor(d.score),fontFamily:"system-ui"}}>{d.score>0?"+":""}{d.score.toFixed(0)}</div>
                   </div>
-                  <div style={{fontSize:13,color:vColor(d.score),fontStyle:"italic",margin:"6px 0",fontFamily:"system-ui"}}>{answer} · Confidence {d.confidence}/10</div>
+                  <div style={{fontSize:13,color:vColor(d.score),fontStyle:"italic",margin:"6px 0",fontFamily:"system-ui"}}>{answer}</div>
+                  <div style={{fontSize:10,color:CL.dim,fontFamily:"system-ui"}}>Convergence: <b>{d.convergence}%</b> · <b style={{color:CL.grn}}>▲{d.greenCount}</b> / <b style={{color:CL.red}}>▼{d.redCount}</b></div>
+                  <HR/>
+                  {d.signals.slice(0,3).map((s:any,j:number)=>(
+                    <Bullet key={j} strong={s.text} color={s.type==="green"?CL.grn:CL.red} conf={s.conf} val={s.val}>{s.detail}</Bullet>
+                  ))}
                 </div>
               );
             })}
           </div>
         )}
 
-        {/* CALENDAR */}
+        {/* ===== CALENDAR ===== */}
         {tab==="calendar"&&(
           <div style={SC.card}>
-            <SH icon="📅" title={tier>=2?"30-DAY COSMIC MAP":"7-DAY COSMIC MAP"} sub={tier<2?"Upgrade to Plus for full 30-day forecast":undefined}/>
+            <SH icon="📅" title="30-DAY PERSONAL COSMIC MAP" sub="Your unique energy landscape for the month ahead"/>
             <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3,marginBottom:12}}>
               {["S","M","T","W","T","F","S"].map((d,i)=><div key={i} style={{textAlign:"center",fontSize:8,color:CL.dim,fontFamily:"system-ui",fontWeight:700}}>{d}</div>)}
               {Array.from({length:data.forecast[0].date.getDay()}).map((_,i)=><div key={"e"+i}/>)}
@@ -417,73 +431,86 @@ export default function OracleEngine() {
                 </div>);
               })}
             </div>
-            {tier<2&&<Locked tier={2} feature="Full 30-day forecast — unlock Plus for the complete month view"/>}
+            <div style={{fontSize:10,letterSpacing:2,color:CL.acc,fontWeight:700,marginBottom:6,fontFamily:"system-ui"}}>DAILY BREAKDOWN (14 days)</div>
+            {data.forecast.slice(0,14).map((day:any,i:number)=>(
+              <div key={i} onClick={()=>{setTargetDate(day.date.toISOString().split("T")[0]);setTab("reading");}} style={{display:"flex",alignItems:"center",gap:8,padding:"7px 10px",background:i%2?"transparent":CL.card2,borderRadius:6,cursor:"pointer",marginBottom:2,fontFamily:"system-ui",fontSize:11}}>
+                <div style={{minWidth:85,fontWeight:i===0?700:400,color:i===0?CL.acc:CL.txt}}>{fmtD(day.date)}{i===0?" ★":""}</div>
+                <div style={{flex:1}}>
+                  <div style={{height:5,background:CL.bdr,borderRadius:3,overflow:"hidden",position:"relative"}}>
+                    <div style={{position:"absolute",left:"50%",width:1,height:"100%",background:CL.mut}}/>
+                    <div style={{position:"absolute",left:day.overall>0?"50%":`${50+day.overall/2}%`,width:`${Math.abs(day.overall/2)}%`,height:"100%",background:vColor(day.overall),borderRadius:3}}/>
+                  </div>
+                </div>
+                <span style={{fontSize:9}}>{day.moonPhase.icon}</span>
+                <span style={{fontSize:9,color:CL.dim,minWidth:35}}>Best:{day.best.icon}</span>
+                <span style={{fontSize:13,fontWeight:800,minWidth:38,textAlign:"right",color:vColor(day.overall)}}>{day.overall>0?"+":""}{day.overall.toFixed(0)}</span>
+              </div>
+            ))}
           </div>
         )}
 
-        {/* BEST DAYS — Tier 2+ */}
+        {/* ===== BEST DAYS ===== */}
         {tab==="bestdays"&&(
-          tier>=2?(
-            <div style={SC.card}>
-              <SH icon="⭐" title="OPTIMAL TIMING" sub="Best & worst windows — next 30 days by domain"/>
-              {data.bestDays.map((bd:any)=>(
-                <div key={bd.domain.id} style={{background:CL.card2,borderRadius:12,padding:14,marginBottom:8}}>
-                  <div style={{fontSize:14,fontWeight:700,fontFamily:"system-ui",marginBottom:8}}>{bd.domain.icon} {bd.domain.name}</div>
-                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-                    <div>
-                      <div style={{fontSize:10,color:CL.grn,fontWeight:700,letterSpacing:1,marginBottom:4,fontFamily:"system-ui"}}>🟢 BEST</div>
-                      {bd.top3.map((d:any,i:number)=>(<div key={i} onClick={()=>{setTargetDate(d.date.toISOString().split("T")[0]);setTab("reading");}} style={{display:"flex",justifyContent:"space-between",padding:"5px 8px",background:CL.grn+"0d",borderRadius:6,marginBottom:3,cursor:"pointer",fontFamily:"system-ui",fontSize:11}}>
-                        <span>{fmtD(d.date)}</span>
-                        <span style={{fontWeight:800,color:CL.grn}}>+{d.score.toFixed(0)}</span>
-                      </div>))}
-                    </div>
-                    <div>
-                      <div style={{fontSize:10,color:CL.red,fontWeight:700,letterSpacing:1,marginBottom:4,fontFamily:"system-ui"}}>🔴 AVOID</div>
-                      {bd.bottom3.map((d:any,i:number)=>(<div key={i} style={{display:"flex",justifyContent:"space-between",padding:"5px 8px",background:CL.red+"0d",borderRadius:6,marginBottom:3,fontFamily:"system-ui",fontSize:11}}>
-                        <span>{fmtD(d.date)}</span>
-                        <span style={{fontWeight:800,color:CL.red}}>{d.score.toFixed(0)}</span>
-                      </div>))}
-                    </div>
+          <div style={SC.card}>
+            <SH icon="⭐" title="OPTIMAL TIMING — Best & Worst Windows" sub="Next 30 days by domain — tap any day to read full analysis"/>
+            {data.bestDays.map((bd:any)=>(
+              <div key={bd.domain.id} style={{background:CL.card2,borderRadius:12,padding:14,marginBottom:8}}>
+                <div style={{fontSize:14,fontWeight:700,fontFamily:"system-ui",marginBottom:8}}>{bd.domain.icon} {bd.domain.name}</div>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+                  <div>
+                    <div style={{fontSize:10,color:CL.grn,fontWeight:700,letterSpacing:1,marginBottom:4,fontFamily:"system-ui"}}>🟢 BEST WINDOWS</div>
+                    {bd.top3.map((d:any,i:number)=>(<div key={i} onClick={()=>{setTargetDate(d.date.toISOString().split("T")[0]);setTab("reading");}} style={{display:"flex",justifyContent:"space-between",padding:"5px 8px",background:CL.grn+"0d",borderRadius:6,marginBottom:3,cursor:"pointer",fontFamily:"system-ui",fontSize:11}}>
+                      <span>{fmtD(d.date)}</span>
+                      <span style={{fontWeight:800,color:CL.grn}}>+{d.score.toFixed(0)} · {d.conf}/10</span>
+                    </div>))}
+                  </div>
+                  <div>
+                    <div style={{fontSize:10,color:CL.red,fontWeight:700,letterSpacing:1,marginBottom:4,fontFamily:"system-ui"}}>🔴 AVOID</div>
+                    {bd.bottom3.map((d:any,i:number)=>(<div key={i} style={{display:"flex",justifyContent:"space-between",padding:"5px 8px",background:CL.red+"0d",borderRadius:6,marginBottom:3,fontFamily:"system-ui",fontSize:11}}>
+                      <span>{fmtD(d.date)}</span>
+                      <span style={{fontWeight:800,color:CL.red}}>{d.score.toFixed(0)}</span>
+                    </div>))}
                   </div>
                 </div>
-              ))}
-            </div>
-          ):<Locked tier={2} feature="Best Days — optimal timing windows for every life domain"/>
+              </div>
+            ))}
+          </div>
         )}
 
-        {/* CHART — Tier 2+ */}
+        {/* ===== CHART ===== */}
         {tab==="chart"&&(
-          tier>=2?(
-            <div style={SC.card}>
-              <SH icon="🌌" title="NATAL CHART + CURRENT TRANSITS"/>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-                {["Natal","Transit"].map(type=>(
-                  <div key={type}>
-                    <div style={{fontSize:10,color:type==="Natal"?CL.acc:CL.pur,letterSpacing:2,fontWeight:700,marginBottom:4,fontFamily:"system-ui"}}>{type.toUpperCase()}</div>
-                    {(type==="Natal"?data.natal:data.transit).map((p:any)=>(
-                      <div key={p.name} style={{display:"flex",justifyContent:"space-between",padding:"4px 8px",fontSize:11,background:CL.card2,borderRadius:5,marginBottom:2,fontFamily:"system-ui"}}>
-                        <span style={{color:p.planet?.c}}>{p.planet?.sym} {p.name}{p.retro?" ℞":""}</span>
-                        <span style={{color:p.sign.c}}>{p.sign.sym} {p.degree.toFixed(1)}°</span>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-              <HR/>
-              <div style={{fontSize:10,letterSpacing:2,color:CL.pnk,fontWeight:700,marginBottom:6,fontFamily:"system-ui"}}>TOP ASPECTS</div>
-              {data.allAspects.slice(0,10).map((a:any,i:number)=>(
-                <div key={i} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 8px",background:i%2?"transparent":CL.card2,borderRadius:5,fontSize:11,fontFamily:"system-ui"}}>
-                  <span style={{fontSize:14,color:a.asp.c}}>{a.asp.sym}</span>
-                  <span style={{flex:1}}><span style={{color:a.p1.planet?.c}}>{a.p1.name}</span> <span style={{color:CL.dim}}>{a.asp.name}</span> <span style={{color:a.p2.planet?.c}}>{a.p2.name}</span></span>
-                  <span style={{fontWeight:800,color:a.asp.c}}>{a.exact}%</span>
+          <div style={SC.card}>
+            <SH icon="🌌" title="NATAL CHART + CURRENT TRANSITS"/>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
+              {["Natal","Transit"].map(type=>(
+                <div key={type}>
+                  <div style={{fontSize:10,color:type==="Natal"?CL.acc:CL.pur,letterSpacing:2,fontWeight:700,marginBottom:4,fontFamily:"system-ui"}}>{type.toUpperCase()} POSITIONS</div>
+                  {(type==="Natal"?data.natal:data.transit).map((p:any)=>(
+                    <div key={p.name} style={{display:"flex",justifyContent:"space-between",padding:"4px 8px",fontSize:11,background:CL.card2,borderRadius:5,marginBottom:2,fontFamily:"system-ui"}}>
+                      <span style={{color:p.planet?.c}}>{p.planet?.sym} {p.name}{p.retro?" ℞":""}</span>
+                      <span style={{color:p.sign.c}}>{p.sign.sym} {p.degree.toFixed(1)}° {p.sign.name}</span>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
-          ):<Locked tier={2} feature="Natal Chart + Transit Aspects — full astrological chart view"/>
+            <HR/>
+            <div style={{fontSize:10,letterSpacing:2,color:CL.pnk,fontWeight:700,marginBottom:6,fontFamily:"system-ui"}}>TOP TRANSIT ASPECTS TO YOUR CHART</div>
+            {data.allAspects.slice(0,12).map((a:any,i:number)=>(
+              <div key={i} style={{display:"flex",alignItems:"center",gap:8,padding:"6px 8px",background:i%2?"transparent":CL.card2,borderRadius:5,fontSize:11,fontFamily:"system-ui"}}>
+                <span style={{fontSize:15,color:a.asp.c,minWidth:18}}>{a.asp.sym}</span>
+                <span style={{flex:1}}><span style={{color:a.p1.planet?.c,fontWeight:600}}>{a.p1.name}</span> <span style={{color:CL.dim}}>{a.asp.name}</span> <span style={{color:a.p2.planet?.c,fontWeight:600}}>{a.p2.name}</span></span>
+                <span style={{fontSize:9,color:CL.dim}}>{a.asp.nature}</span>
+                <span style={{fontWeight:800,color:a.asp.c,minWidth:30,textAlign:"right"}}>{a.exact}%</span>
+                <span style={{fontSize:9,color:CL.dim}}>exact</span>
+              </div>
+            ))}
+          </div>
         )}
       </>)}
 
-      <div style={{textAlign:"center",padding:"20px 0",fontSize:10,color:CL.mut,fontFamily:"system-ui"}}>
+      <div style={{textAlign:"center",padding:"20px 0 10px",fontSize:10,color:CL.mut,fontFamily:"system-ui",lineHeight:1.6}}>
+        <i>Generated by Oracle v3 Personal Decision Framework</i><br/>
         <i>"The stars incline, they do not compel."</i>
       </div>
     </div>
