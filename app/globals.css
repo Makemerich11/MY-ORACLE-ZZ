@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Syncopate:wght@400;700&family=Inter:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #07060d;
+  --card: #0e0d18;
+  --card2: #16142a;
+  --bdr: #1f1b3a;
+  --acc: #f6ad3c;
+  --grn: #3dbd7d;
+  --red: #e55050;
+  --pur: #9b7fe6;
+  --pnk: #e879a0;
+  --txt: #e8e4f0;
+  --dim: #6b6580;
+  --mut: #3a3555;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+.font-display { font-family: 'Cormorant Garamond', serif; }
+.font-heading { font-family: 'Syncopate', sans-serif; }
+
+@keyframes glow {
+  0%, 100% { text-shadow: 0 0 20px rgba(246,173,60,0.3); }
+  50% { text-shadow: 0 0 40px rgba(246,173,60,0.6), 0 0 80px rgba(155,127,230,0.3); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-glow { animation: glow 4s ease-in-out infinite; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-fadeUp { animation: fadeUp 0.6s ease forwards; }
+
+.gradient-text {
+  background: linear-gradient(135deg, #f6ad3c, #e879a0, #9b7fe6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-shimmer {
+  background: linear-gradient(90deg, #f6ad3c, #e879a0, #9b7fe6, #f6ad3c);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--mut); border-radius: 2px; }
