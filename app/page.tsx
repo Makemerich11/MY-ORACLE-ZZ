@@ -388,3 +388,4 @@ export default function Home() {
     </div>
   );
 }
+// domain config
