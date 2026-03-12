@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyOracle — Offline</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 50% 0%, #1a1035 0%, #0d0b1e 60%, #07060d 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #c4b5e8;
+      padding: 32px 20px;
+      text-align: center;
+    }
+    .orb {
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle at 35% 30%, #4a3580, #1a1040 70%, #07060d);
+      border-radius: 50%;
+      margin-bottom: 32px;
+      box-shadow: 0 0 60px rgba(155,127,230,0.3), inset 0 0 30px rgba(155,127,230,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      animation: pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 40px rgba(155,127,230,0.2); }
+      50% { box-shadow: 0 0 80px rgba(155,127,230,0.5); }
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #f6ad3c;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    p {
+      font-size: 15px;
+      color: #8a7aaa;
+      line-height: 1.6;
+      max-width: 300px;
+      margin-bottom: 8px;
+    }
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #9b7fe6, transparent);
+      margin: 24px auto;
+    }
+    .cosmic-msg {
+      font-size: 13px;
+      color: #6b6580;
+      font-style: italic;
+      max-width: 260px;
+    }
+    .retry-btn {
+      margin-top: 32px;
+      background: linear-gradient(135deg, #9b7fe6, #7c5cbf);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+    .stars {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--d) ease-in-out infinite var(--delay);
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.8; }
+    }
+    .content { position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <div class="content">
+    <div class="orb">🔮</div>
+    <h1>No Signal</h1>
+    <p>The cosmic connection has been lost.</p>
+    <p>MyOracle needs an internet connection to consult the stars.</p>
+    <div class="divider"></div>
+    <p class="cosmic-msg">"Even the stars need darkness to shine — reconnect and your Oracle awaits."</p>
+    <button class="retry-btn" onclick="window.location.reload()">Reconnect ✦</button>
+  </div>
+
+  <script>
+    // Generate random stars
+    const container = document.getElementById('stars');
+    for (let i = 0; i < 80; i++) {
+      const star = document.createElement('div');
+      const size = Math.random() * 2.5 + 0.5;
+      star.className = 'star';
+      star.style.cssText = `
+        width: ${size}px; height: ${size}px;
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        --d: ${2 + Math.random() * 4}s;
+        --delay: ${-Math.random() * 4}s;
+      `;
+      container.appendChild(star);
+    }
+
+    // Auto-retry when back online
+    window.addEventListener('online', () => window.location.reload());
+  </script>
+</body>
+</html>
