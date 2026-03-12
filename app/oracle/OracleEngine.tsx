@@ -723,10 +723,28 @@ export default function App() {
   const [teamData,setTeamData]=useState<any[]>([]);
 
   // ── FIX 1: Chat state — explicit open/close, not toggle-only ──
+  const INIT_MSG={role:"oracle" as const,text:"Ask me anything about your reading — I'll give you a straight answer based on what the planets are actually doing today. 🔮"};
   const [chatOpen,setChatOpen]=useState(false);
-  const [chatMessages,setChatMessages]=useState<{role:"user"|"oracle",text:string,isError?:boolean}[]>([{role:"oracle",text:"Ask me anything about your reading — I'll give you a straight answer based on what the planets are actually doing today. 🔮"}]);
+  const [chatMessages,setChatMessages]=useState<{role:"user"|"oracle",text:string,isError?:boolean}[]>([INIT_MSG]);
   const [chatInput,setChatInput]=useState("");
   const [chatLoading,setChatLoading]=useState(false);
+  const [showSaved,setShowSaved]=useState(false);
+  const [savedChats,setSavedChats]=useState<{id:string,date:string,preview:string,messages:any[]}[]>(()=>{
+    try{const s=localStorage.getItem("oracle_saved_chats");return s?JSON.parse(s):[];}catch{return[];}
+  });
+  const MAX_SAVES=5;
+
+  const clearChat=()=>{setChatMessages([INIT_MSG]);setChatInput("");};
+
+  const saveChat=()=>{
+    const msgs=chatMessages.filter((_,i)=>i>0&&!chatMessages[i].isError);
+    if(msgs.length<1)return;
+    const newSave={id:Date.now().toString(),date:new Date().toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}),preview:chatMessages[1]?.text?.slice(0,60)+"...",messages:chatMessages};
+    setSavedChats(prev=>{const updated=[newSave,...prev].slice(0,MAX_SAVES);try{localStorage.setItem("oracle_saved_chats",JSON.stringify(updated));}catch{}return updated;});
+  };
+
+  const loadChat=(saved:{messages:any[]})=>{setChatMessages(saved.messages);setShowSaved(false);};
+  const deleteSave=(id:string)=>{setSavedChats(prev=>{const updated=prev.filter(s=>s.id!==id);try{localStorage.setItem("oracle_saved_chats",JSON.stringify(updated));}catch{}return updated;});};
 
   // ── FIX 2: Rich personal context builder for chat ──
   const buildChatContext=useCallback(()=>{
@@ -1361,21 +1379,40 @@ ${ctx}`,
       {/* Chat panel */}
       {chatOpen&&(
         <div style={{position:"fixed",bottom:24,right:16,width:Math.min(380,window.innerWidth-32),maxHeight:"75vh",background:CL.card,border:`1px solid ${CL.pur}40`,borderRadius:16,display:"flex",flexDirection:"column",zIndex:999,boxShadow:`0 8px 40px #00000080`,overflow:"hidden"}}>
-          {/* Header with explicit close button */}
-          <div style={{padding:"12px 16px",borderBottom:`1px solid ${CL.bdr}`,background:`linear-gradient(135deg,${CL.card},#1a1230)`,flexShrink:0,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-            <div>
-              <div style={{fontSize:11,fontWeight:800,color:CL.acc,fontFamily:"system-ui",letterSpacing:2}}>🔮 ASK THE ORACLE</div>
-              <div style={{fontSize:9,color:CL.dim,fontFamily:"system-ui",marginTop:2}}>
-                {dob?"Personal + World data loaded":"World energy only — add DOB for personal readings"}
+          {/* Header */}
+          <div style={{padding:"10px 14px",borderBottom:`1px solid ${CL.bdr}`,background:`linear-gradient(135deg,${CL.card},#1a1230)`,flexShrink:0}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+              <div>
+                <div style={{fontSize:11,fontWeight:800,color:CL.acc,fontFamily:"system-ui",letterSpacing:2}}>🔮 ASK THE ORACLE</div>
+                <div style={{fontSize:9,color:CL.dim,fontFamily:"system-ui",marginTop:2}}>{dob?"Personal + World data loaded":"World energy only — add DOB for personal readings"}</div>
+              </div>
+              <div style={{display:"flex",gap:6,alignItems:"center"}}>
+                {/* Saved chats button */}
+                <button onClick={()=>setShowSaved(s=>!s)} title="Saved chats" style={{background:showSaved?`${CL.acc}25`:`${CL.pur}15`,border:`1px solid ${showSaved?CL.acc:CL.pur}50`,borderRadius:8,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:13,flexShrink:0}}>📂</button>
+                {/* Save button */}
+                <button onClick={saveChat} title={`Save chat (${savedChats.length}/${MAX_SAVES})`} disabled={chatMessages.length<2||savedChats.length>=MAX_SAVES} style={{background:`${CL.grn}15`,border:`1px solid ${CL.grn}50`,borderRadius:8,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:13,flexShrink:0,opacity:chatMessages.length<2||savedChats.length>=MAX_SAVES?0.4:1}}>💾</button>
+                {/* Clear button */}
+                <button onClick={clearChat} title="Clear chat" style={{background:`${CL.acc}15`,border:`1px solid ${CL.acc}40`,borderRadius:8,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:13,flexShrink:0}}>🗑</button>
+                {/* Close button */}
+                <button onClick={()=>setChatOpen(false)} style={{background:`${CL.red}20`,border:`1px solid ${CL.red}50`,borderRadius:8,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:CL.red,fontSize:14,fontWeight:700,flexShrink:0}}>✕</button>
               </div>
             </div>
-            {/* ── FIX 1: Clear, visible close button ── */}
-            <button
-              onClick={()=>setChatOpen(false)}
-              style={{background:`${CL.red}20`,border:`1px solid ${CL.red}50`,borderRadius:8,width:32,height:32,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:CL.red,fontSize:16,fontWeight:700,flexShrink:0}}
-            >
-              ✕
-            </button>
+            {/* Saved chats panel */}
+            {showSaved&&(
+              <div style={{marginTop:10,borderTop:`1px solid ${CL.bdr}`,paddingTop:10}}>
+                <div style={{fontSize:9,color:CL.dim,fontFamily:"system-ui",marginBottom:6,letterSpacing:1}}>SAVED CHATS ({savedChats.length}/{MAX_SAVES})</div>
+                {savedChats.length===0&&<div style={{fontSize:11,color:CL.dim,fontFamily:"system-ui",fontStyle:"italic"}}>No saved chats yet. Hit 💾 to save this one.</div>}
+                {savedChats.map(s=>(
+                  <div key={s.id} style={{display:"flex",alignItems:"center",gap:8,padding:"6px 0",borderBottom:`1px solid ${CL.bdr}30`}}>
+                    <div style={{flex:1,cursor:"pointer"}} onClick={()=>loadChat(s)}>
+                      <div style={{fontSize:10,color:CL.acc,fontFamily:"system-ui",fontWeight:700}}>{s.date}</div>
+                      <div style={{fontSize:10,color:CL.txt,fontFamily:"system-ui",opacity:0.7,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.preview}</div>
+                    </div>
+                    <button onClick={()=>deleteSave(s.id)} style={{background:"transparent",border:"none",color:CL.red,cursor:"pointer",fontSize:12,opacity:0.6,flexShrink:0}}>✕</button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Messages */}
