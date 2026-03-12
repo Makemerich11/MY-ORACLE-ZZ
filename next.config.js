@@ -23,6 +23,8 @@ const nextConfig = {
   typescript: { ignoreBuildErrors: true },
   compress: true,
   poweredByHeader: false,
+  // Disable Turbopack so next-pwa webpack config works
+  turbopack: {},
 };
 
 module.exports = withPWA(nextConfig);
