@@ -1041,7 +1041,10 @@ ${ctx}`,
             <span style={{fontSize:18}}>🔮</span>
             <span style={{fontSize:13,fontWeight:900,color:CL.acc,letterSpacing:2}}>MYORACLE</span>
           </div>
-          <button onClick={()=>setTier(1)} style={{background:`${CL.pur}20`,border:`1px solid ${CL.pur}50`,borderRadius:20,padding:"6px 16px",fontSize:11,color:CL.pur,cursor:"pointer",fontWeight:700,letterSpacing:1}}>✨ Upgrade</button>
+          <div style={{display:"flex",gap:8,alignItems:"center"}}>
+          <a href="/login" style={{fontSize:11,color:CL.dim,textDecoration:"none",padding:"6px 12px"}}>Sign in</a>
+          <a href="/signup" style={{background:`${CL.pur}20`,border:`1px solid ${CL.pur}50`,borderRadius:20,padding:"6px 16px",fontSize:11,color:CL.pur,textDecoration:"none",fontWeight:700,letterSpacing:1}}>✨ Sign up free</a>
+        </div>
         </div>
 
         {/* ── HERO: Orb + Chat Bar ── */}
