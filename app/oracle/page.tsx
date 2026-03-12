@@ -1,5 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
+import PWAInstallBanner from "@/components/PWAInstallBanner";
 
 const OracleEngine = dynamic(
   () => import("./OracleEngine"),
@@ -11,5 +12,10 @@ const OracleEngine = dynamic(
 );
 
 export default function OraclePage() {
-  return <OracleEngine />;
+  return (
+    <>
+      <OracleEngine />
+      <PWAInstallBanner />
+    </>
+  );
 }
