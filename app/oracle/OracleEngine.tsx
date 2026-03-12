@@ -1048,18 +1048,36 @@ ${ctx}`,
         <div style={{width:"100%",maxWidth:680,padding:"52px 20px 0",animation:"fadeUp 0.8s ease both"}}>
 
           {/* headline */}
-          <div style={{textAlign:"center",marginBottom:36}}>
-            <div style={{fontSize:11,letterSpacing:4,color:CL.pur,fontWeight:700,marginBottom:10,opacity:0.8}}>AI ASTROLOGY ORACLE</div>
-            <h1 style={{fontSize:"clamp(26px,6vw,42px)",fontWeight:900,margin:"0 0 12px",lineHeight:1.1,
+          <div style={{textAlign:"center",marginBottom:28}}>
+            <h1 style={{fontSize:"clamp(26px,6vw,42px)",fontWeight:900,margin:"0 0 14px",lineHeight:1.1,
               background:`linear-gradient(135deg,${CL.acc} 0%,#e879a0 50%,${CL.pur} 100%)`,
               backgroundSize:"200% auto",
               WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",
               animation:"shimmer 4s linear infinite"}}>
               What does the universe<br/>have for you today?
             </h1>
-            <p style={{fontSize:13,color:CL.dim,margin:0,lineHeight:1.7}}>
-              Live planetary data · Multi-system AI · % probability timing engine
+            <p style={{fontSize:13,color:CL.dim,margin:"0 0 20px",lineHeight:1.7}}>
+              Not your newspaper horoscope. The real thing — built on 12 simultaneous astrological systems.
             </p>
+            <div style={{display:"flex",flexWrap:"wrap",gap:7,justifyContent:"center"}}>
+              {[
+                {icon:"⚡",text:"12 systems running simultaneously"},
+                {icon:"🎯",text:"% probability scores, not vague forecasts"},
+                {icon:"🌍",text:"Live planetary positions, real time"},
+                {icon:"🧬",text:"Your birth chart correlated to today's sky"},
+                {icon:"📡",text:"Transits · Progressions · Solar Arcs · Midpoints"},
+                {icon:"🔬",text:"Dignity · Combustion · Sect · Stelliums"},
+              ].map((u,i)=>(
+                <div key={i} style={{
+                  display:"flex",alignItems:"center",gap:6,
+                  background:`${CL.pur}12`,border:`1px solid ${CL.pur}25`,
+                  borderRadius:20,padding:"5px 12px",fontSize:11,color:CL.dim,
+                }}>
+                  <span style={{fontSize:12}}>{u.icon}</span>
+                  <span>{u.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* ── GOOGLE-STYLE CHAT BAR ── */}
@@ -1254,6 +1272,18 @@ ${ctx}`,
               boxShadow:`0 4px 24px ${CL.pur}40`,
             }}>✨ Start with Basic — $9.99/mo</button>
             <div style={{fontSize:10,color:CL.dim,marginTop:8}}>Cancel anytime · Instant access · No commitments</div>
+          </div>
+        </div>
+
+        {/* ── FOOTER ── */}
+        <div style={{width:"100%",maxWidth:640,padding:"40px 20px 0",textAlign:"center"}}>
+          <div style={{borderTop:`1px solid ${CL.bdr}`,paddingTop:24}}>
+            <div style={{display:"flex",justifyContent:"center",gap:20,marginBottom:12,flexWrap:"wrap"}}>
+              {[["About","/about"],["Terms","/terms"],["Privacy","/privacy"]].map(([label,href])=>(
+                <a key={href} href={href} style={{fontSize:11,color:CL.dim,textDecoration:"none"}}>{label}</a>
+              ))}
+            </div>
+            <div style={{fontSize:10,color:CL.dim,opacity:0.5}}>© {new Date().getFullYear()} MyOracle · For entertainment purposes · Not financial or medical advice</div>
           </div>
         </div>
 
