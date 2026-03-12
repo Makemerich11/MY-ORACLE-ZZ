@@ -143,6 +143,9 @@ const DOMAINS = [
 ];
 
 const TIERS = [
+  {id:0, name:"Free",   price:"Free",   period:"",   color:"#4a9eff",tagline:"Ask the Oracle anything",
+   features:["Oracle AI chat — world energy","Ask unlimited questions","No sign-up required"],
+   locked:["Personal birth chart","Domain scores","Best days","Deep dives","Team mode"]},
   {id:1, name:"Basic",  price:"$9.99",  period:"/mo",color:"#6b6580",tagline:"Your daily cosmic pulse",
    features:["All 9 domains — scores & verdicts","7-day forecast","Moon phase & retrograde alerts","Should I...? quick guide","World Energy snapshot"],
    locked:["Signal breakdown","30-day calendar","Deep domain dives","Birth time precision","Team mode"]},
@@ -715,7 +718,7 @@ export default function App() {
   const [loading,setLoading]=useState(false);
   const [error,setError]=useState<string|null>(null);
   const [expanded,setExpanded]=useState<string|null>(null);
-  const [tier,setTier]=useState(1);
+  const [tier,setTier]=useState(0);
   const [deepDiveId,setDeepDiveId]=useState<string|null>(null);
   const [teamMembers,setTeamMembers]=useState<any[]>([]);
   const [newName,setNewName]=useState("");
@@ -1009,6 +1012,105 @@ ${ctx}`,
     letterSpacing:0.3,
     flexShrink:0 as const,
   };
+
+  // ── FREE TIER: Chat bubble only + upgrade hooks ──
+  if(tier===0){
+    const worldSnippet = data?.worldDomains?.slice(0,3)||[];
+    return(
+      <div style={{minHeight:"100vh",background:CL.bg,color:CL.txt,fontFamily:"system-ui,sans-serif",display:"flex",flexDirection:"column",alignItems:"center"}}>
+        <style>{`*{box-sizing:border-box}::-webkit-scrollbar{width:4px;background:#07060d}::-webkit-scrollbar-thumb{background:#1f1b3a;border-radius:2px}@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}`}</style>
+
+        {/* Hero */}
+        <div style={{textAlign:"center",padding:"48px 24px 24px",maxWidth:500,width:"100%"}}>
+          <div style={{fontSize:52,marginBottom:12,animation:"pulse 3s infinite"}}>🔮</div>
+          <div style={{fontSize:30,fontWeight:900,color:CL.acc,letterSpacing:3,marginBottom:6}}>MYORACLE</div>
+          <div style={{fontSize:13,color:CL.dim,lineHeight:1.7,marginBottom:32}}>Multi-system AI astrology · Live planetary data · % probability timing engine</div>
+
+          {/* Live world energy teaser — loads automatically */}
+          {data&&worldSnippet.length>0&&(
+            <div style={{background:CL.card,border:`1px solid ${CL.bdr}`,borderRadius:14,padding:16,marginBottom:20,textAlign:"left"}}>
+              <div style={{fontSize:9,color:CL.acc,fontWeight:800,letterSpacing:2,marginBottom:10,fontFamily:"system-ui"}}>⚡ TODAY'S WORLD ENERGY — LIVE</div>
+              {worldSnippet.map((d:any,i:number)=>(
+                <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 0",borderBottom:i<2?`1px solid ${CL.bdr}30`:"none"}}>
+                  <div>
+                    <div style={{fontSize:11,fontWeight:700,color:CL.txt,fontFamily:"system-ui"}}>{d.icon} {d.name}</div>
+                    <div style={{fontSize:9,color:CL.dim,fontFamily:"system-ui",marginTop:2}}>{d.verdict}</div>
+                  </div>
+                  <div style={{fontSize:18,fontWeight:900,color:d.probability>60?CL.grn:d.probability>40?CL.acc:CL.red,fontFamily:"system-ui"}}>{d.probability}%</div>
+                </div>
+              ))}
+              <div style={{fontSize:9,color:CL.dim,fontFamily:"system-ui",marginTop:10,textAlign:"center",fontStyle:"italic"}}>🔒 Unlock all 9 domains + personal birth chart readings</div>
+            </div>
+          )}
+
+          {/* Upgrade CTA */}
+          <button onClick={()=>setTier(1)} style={{background:`linear-gradient(135deg,${CL.pur},${CL.acc})`,color:"#000",border:"none",borderRadius:14,padding:"14px 28px",fontSize:14,fontWeight:900,cursor:"pointer",width:"100%",marginBottom:10,letterSpacing:1}}>✨ UNLOCK FULL ORACLE</button>
+          <div style={{fontSize:10,color:CL.dim,marginBottom:8}}>From $9.99/mo · Personal chart · 9 domain scores · Best days · Deep dives</div>
+
+          {/* Feature teaser grid */}
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginTop:20,marginBottom:8}}>
+            {[
+              {icon:"🎯",title:"% Probability Scores",desc:"Know your odds before you act"},
+              {icon:"🌍",title:"9 Life Domains",desc:"Love · Career · Finance + more"},
+              {icon:"📅",title:"Best Days Calendar",desc:"30-day optimal timing map"},
+              {icon:"🔮",title:"Oracle AI Chat",desc:"Ask anything, get direct answers"},
+              {icon:"🌙",title:"Personal Birth Chart",desc:"Natal transits & deep dives"},
+              {icon:"👥",title:"Team Mode",desc:"Group cosmic compatibility"},
+            ].map((f,i)=>(
+              <div key={i} style={{background:CL.card,border:`1px solid ${CL.bdr}`,borderRadius:10,padding:"10px 12px",textAlign:"left"}}>
+                <div style={{fontSize:18,marginBottom:4}}>{f.icon}</div>
+                <div style={{fontSize:10,fontWeight:700,color:CL.txt,fontFamily:"system-ui"}}>{f.title}</div>
+                <div style={{fontSize:9,color:CL.dim,fontFamily:"system-ui",marginTop:2}}>{f.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Floating chat bubble */}
+        {!chatOpen&&(
+          <button onClick={()=>{setChatOpen(true);if(!data)compute();}} style={{position:"fixed",bottom:24,right:16,width:62,height:62,borderRadius:"50%",background:`linear-gradient(135deg,${CL.pur},${CL.acc})`,border:"none",fontSize:28,cursor:"pointer",boxShadow:`0 4px 24px ${CL.pur}60`,display:"flex",alignItems:"center",justifyContent:"center",zIndex:999}}>🔮</button>
+        )}
+
+        {/* Chat panel */}
+        {chatOpen&&(
+          <div style={{position:"fixed",bottom:24,right:16,width:Math.min(380,window.innerWidth-32),maxHeight:"80vh",background:CL.card,border:`1px solid ${CL.pur}40`,borderRadius:16,display:"flex",flexDirection:"column",zIndex:999,boxShadow:`0 8px 40px #00000080`,overflow:"hidden"}}>
+            <div style={{padding:"10px 14px",borderBottom:`1px solid ${CL.bdr}`,background:`linear-gradient(135deg,${CL.card},#1a1230)`,flexShrink:0}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                <div>
+                  <div style={{fontSize:11,fontWeight:800,color:CL.acc,letterSpacing:2}}>🔮 ASK THE ORACLE</div>
+                  <div style={{fontSize:9,color:CL.dim,marginTop:2}}>Free · World energy only</div>
+                </div>
+                <div style={{display:"flex",gap:6}}>
+                  <button onClick={clearChat} title="Clear chat" style={{background:`${CL.acc}15`,border:`1px solid ${CL.acc}40`,borderRadius:8,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:13}}>🗑</button>
+                  <button onClick={()=>setChatOpen(false)} style={{background:`${CL.red}20`,border:`1px solid ${CL.red}50`,borderRadius:8,width:30,height:30,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",color:CL.red,fontSize:14,fontWeight:700}}>✕</button>
+                </div>
+              </div>
+            </div>
+            <div style={{flex:1,overflowY:"auto",padding:"12px 14px",display:"flex",flexDirection:"column",gap:10}}>
+              {chatMessages.map((m,i)=>(
+                <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start"}}>
+                  <div style={{maxWidth:"88%",padding:"10px 13px",borderRadius:m.role==="user"?"14px 14px 4px 14px":"14px 14px 14px 4px",background:m.role==="user"?`linear-gradient(135deg,${CL.pur},${CL.acc})`:m.isError?`${CL.red}15`:CL.card2,color:m.role==="user"?"#000":m.isError?CL.red:CL.txt,fontSize:12,lineHeight:1.65,whiteSpace:"pre-wrap",border:m.isError?`1px solid ${CL.red}30`:"none"}}>{m.text}</div>
+                </div>
+              ))}
+              {chatLoading&&<div style={{display:"flex",justifyContent:"flex-start"}}><div style={{padding:"10px 13px",background:CL.card2,borderRadius:"14px 14px 14px 4px",color:CL.dim,fontSize:12}}>Oracle is reading the stars...</div></div>}
+            </div>
+            <div style={{padding:"8px 12px",borderTop:`1px solid ${CL.bdr}20`,display:"flex",gap:6,overflowX:"auto",flexShrink:0}}>
+              {["Should I sign today?","Best day this week?","Love energy today?","Career move now?","Financial timing?"].map(q=>(
+                <button key={q} onClick={()=>setChatInput(q)} style={{background:`${CL.pur}15`,border:`1px solid ${CL.pur}30`,borderRadius:20,padding:"4px 10px",fontSize:9,color:CL.dim,cursor:"pointer",whiteSpace:"nowrap"}}>{q}</button>
+              ))}
+            </div>
+            <div style={{padding:"10px 12px",borderTop:`1px solid ${CL.bdr}`,display:"flex",gap:8,flexShrink:0}}>
+              <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendChat();}}} placeholder="Ask the Oracle anything..." style={{flex:1,padding:"9px 12px",background:CL.card2,border:`1px solid ${CL.bdr}`,borderRadius:10,color:CL.txt,fontSize:12,outline:"none"}}/>
+              <button onClick={sendChat} disabled={!chatInput.trim()||chatLoading} style={{background:`linear-gradient(135deg,${CL.pur},${CL.acc})`,color:"#000",border:"none",borderRadius:10,padding:"9px 16px",fontSize:12,fontWeight:800,cursor:"pointer",opacity:!chatInput.trim()||chatLoading?0.4:1}}>→</button>
+            </div>
+            <div style={{padding:"8px 14px",background:`${CL.pur}10`,borderTop:`1px solid ${CL.bdr}20`,textAlign:"center"}}>
+              <button onClick={()=>{setChatOpen(false);setTier(1);}} style={{background:"transparent",border:"none",color:CL.acc,fontSize:10,cursor:"pointer",fontWeight:800}}>✨ Upgrade for personal birth chart readings →</button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return(
     <div style={{background:CL.bg,color:CL.txt,minHeight:"100vh",fontFamily:"'Georgia','Palatino',serif",padding:"10px 14px",maxWidth:720,margin:"0 auto"}}>
