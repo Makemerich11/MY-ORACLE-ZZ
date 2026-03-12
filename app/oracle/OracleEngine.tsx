@@ -1059,18 +1059,55 @@ ${ctx}`,
             <p style={{fontSize:13,color:CL.dim,margin:"0 0 20px",lineHeight:1.7}}>
               Not your newspaper horoscope. The real thing — built on 12 simultaneous astrological systems.
             </p>
-            <div style={{display:"flex",flexWrap:"wrap",gap:7,justifyContent:"center"}}>
+            {/* Astrological systems */}
+            <div style={{fontSize:10,color:CL.acc,fontWeight:800,letterSpacing:3,marginBottom:10,textAlign:"center"}}>ASTROLOGICAL SYSTEMS</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:7,justifyContent:"center",marginBottom:20}}>
               {[
-                {icon:"⚡",text:"12 systems running simultaneously"},
-                {icon:"🎯",text:"% probability scores, not vague forecasts"},
-                {icon:"🌍",text:"Live planetary positions, real time"},
-                {icon:"🧬",text:"Your birth chart correlated to today's sky"},
-                {icon:"📡",text:"Transits · Progressions · Solar Arcs · Midpoints"},
-                {icon:"🔬",text:"Dignity · Combustion · Sect · Stelliums"},
+                {icon:"⚡",text:"12 systems simultaneously"},
+                {icon:"🪐",text:"Natal transits"},
+                {icon:"📈",text:"Secondary progressions"},
+                {icon:"🌀",text:"Solar arc directions"},
+                {icon:"🎯",text:"Midpoint analysis"},
+                {icon:"🔮",text:"Solar return chart"},
+                {icon:"🏠",text:"House placements"},
+                {icon:"⚡",text:"Planet dignity & debility"},
+                {icon:"🌑",text:"Eclipse zone activation"},
+                {icon:"☿",text:"Combustion detection"},
+                {icon:"✦",text:"Antiscia mirror points"},
+                {icon:"👥",text:"Mutual receptions"},
+                {icon:"🌟",text:"Stellium clusters"},
               ].map((u,i)=>(
                 <div key={i} style={{
                   display:"flex",alignItems:"center",gap:6,
                   background:`${CL.pur}12`,border:`1px solid ${CL.pur}25`,
+                  borderRadius:20,padding:"5px 12px",fontSize:11,color:CL.dim,
+                }}>
+                  <span style={{fontSize:12}}>{u.icon}</span>
+                  <span>{u.text}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Non-astrological intelligence layers */}
+            <div style={{fontSize:10,color:CL.acc,fontWeight:800,letterSpacing:3,marginBottom:10,textAlign:"center"}}>INTELLIGENCE LAYERS</div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:7,justifyContent:"center"}}>
+              {[
+                {icon:"💰",text:"Finance & market cycle overlays"},
+                {icon:"🏥",text:"Health & surgery timing windows"},
+                {icon:"✈️",text:"Travel departure timing"},
+                {icon:"💼",text:"Career authority approach windows"},
+                {icon:"💕",text:"Venus cycle love timing"},
+                {icon:"📜",text:"Contract & Mercury retrograde alerts"},
+                {icon:"🧠",text:"Mercury sharp — optimal learning windows"},
+                {icon:"🌙",text:"Moon phase decision layering"},
+                {icon:"🔁",text:"Retrograde season risk mapping"},
+                {icon:"📅",text:"30-day best days calendar"},
+                {icon:"👥",text:"Relationship synastry scoring"},
+                {icon:"🎯",text:"% probability — not vague forecasts"},
+              ].map((u,i)=>(
+                <div key={i} style={{
+                  display:"flex",alignItems:"center",gap:6,
+                  background:`#f6ad3c12`,border:`1px solid #f6ad3c25`,
                   borderRadius:20,padding:"5px 12px",fontSize:11,color:CL.dim,
                 }}>
                   <span style={{fontSize:12}}>{u.icon}</span>
