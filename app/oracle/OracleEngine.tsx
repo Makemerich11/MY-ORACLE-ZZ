@@ -1036,12 +1036,29 @@ ${ctx}`,
         `}</style>
 
         {/* ── TOP NAV ── */}
-        <div style={{width:"100%",maxWidth:680,padding:"18px 20px 0",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-          <div style={{display:"flex",alignItems:"center",gap:8}}>
-            <span style={{fontSize:18}}>🔮</span>
-            <span style={{fontSize:13,fontWeight:900,color:CL.acc,letterSpacing:2}}>MYORACLE</span>
+        <div style={{width:"100%",maxWidth:680,padding:"18px 20px 0",display:"flex",flexDirection:"column",alignItems:"center",gap:12}}>
+          <div style={{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
+              <span style={{fontSize:18}}>🔮</span>
+              <span style={{fontSize:13,fontWeight:900,color:CL.acc,letterSpacing:2}}>MYORACLE</span>
+            </div>
+            <div style={{fontSize:9,color:CL.dim,letterSpacing:1}}>SELECT YOUR PLAN</div>
           </div>
-          <div style={{display:"flex",gap:8,alignItems:"center"}}/>
+          {/* Tier switcher — same as paid tier */}
+          <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:5,flexWrap:"wrap",width:"100%"}}>
+            {TIERS.map(t=>(
+              <button key={t.id} onClick={()=>setTier(t.id)}
+                style={{
+                  background:tier===t.id?`${t.color}25`:"transparent",
+                  color:tier===t.id?t.color:"#6b6580",
+                  border:`1px solid ${tier===t.id?t.color:CL.bdr}`,
+                  borderRadius:20,padding:"4px 14px",
+                  fontSize:10,fontWeight:700,cursor:"pointer",
+                  fontFamily:"system-ui",letterSpacing:0.5,
+                  transition:"all 0.15s",
+                }}>{t.name} {t.price}</button>
+            ))}
+          </div>
         </div>
 
         {/* ── HERO ── */}
