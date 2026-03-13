@@ -1057,65 +1057,35 @@ ${ctx}`,
               animation:"shimmer 4s linear infinite"}}>
               What does the universe<br/>have for you today?
             </h1>
-            <p style={{fontSize:13,color:CL.dim,margin:"0 0 20px",lineHeight:1.7}}>
-              Not your newspaper horoscope. The real thing — built on 12 simultaneous astrological systems.
+            {/* Sub headline */}
+            <p style={{fontSize:"clamp(14px,2vw,17px)",color:"rgba(232,228,240,0.55)",margin:"0 0 6px",lineHeight:1.7,fontWeight:400}}>
+              Built on <strong style={{color:"rgba(232,228,240,0.9)",fontWeight:700}}>12 simultaneous astrological systems.</strong> Real % probability.
             </p>
-            {/* Astrological systems */}
-            <div style={{fontSize:10,color:CL.acc,fontWeight:800,letterSpacing:3,marginBottom:10,textAlign:"center"}}>ASTROLOGICAL SYSTEMS</div>
-            <div style={{display:"flex",flexWrap:"wrap",gap:7,justifyContent:"center",marginBottom:20}}>
-              {[
-                {icon:"⚡",text:"12 systems simultaneously"},
-                {icon:"🪐",text:"Natal transits"},
-                {icon:"📈",text:"Secondary progressions"},
-                {icon:"🌀",text:"Solar arc directions"},
-                {icon:"🎯",text:"Midpoint analysis"},
-                {icon:"🔮",text:"Solar return chart"},
-                {icon:"🏠",text:"House placements"},
-                {icon:"⚡",text:"Planet dignity & debility"},
-                {icon:"🌑",text:"Eclipse zone activation"},
-                {icon:"☿",text:"Combustion detection"},
-                {icon:"✦",text:"Antiscia mirror points"},
-                {icon:"👥",text:"Mutual receptions"},
-                {icon:"🌟",text:"Stellium clusters"},
-              ].map((u,i)=>(
-                <div key={i} style={{
-                  display:"flex",alignItems:"center",gap:6,
-                  background:`${CL.pur}12`,border:`1px solid ${CL.pur}25`,
-                  borderRadius:20,padding:"5px 12px",fontSize:11,color:CL.dim,
-                }}>
-                  <span style={{fontSize:12}}>{u.icon}</span>
-                  <span>{u.text}</span>
-                </div>
-              ))}
+            <p style={{fontSize:"clamp(12px,1.6vw,14px)",color:"rgba(232,228,240,0.38)",margin:"0 0 22px",lineHeight:1.7}}>
+              So any intelligence layer — finance cycles, love timing, career windows, health, travel, contracts — is scored with actual numbers, not vague forecasts.
+            </p>
+
+            {/* JP Morgan quote — D style */}
+            <div style={{
+              display:"flex",alignItems:"flex-start",gap:12,
+              background:`${CL.pur}0d`,
+              borderLeft:`3px solid ${CL.pur}55`,
+              borderRadius:"0 10px 10px 0",
+              padding:"14px 18px",
+              marginBottom:22,
+              textAlign:"left",
+            }}>
+              <span style={{fontFamily:"Georgia,serif",fontSize:34,color:`${CL.pur}50`,lineHeight:1,flexShrink:0,marginTop:-4}}>"</span>
+              <div>
+                <p style={{fontFamily:"Georgia,serif",fontSize:15,fontStyle:"italic",color:"rgba(232,228,240,0.75)",lineHeight:1.55,margin:"0 0 6px"}}>
+                  Millionaires don't use astrology — billionaires do.
+                </p>
+                <p style={{fontSize:10,letterSpacing:2,color:`${CL.pur}80`,textTransform:"uppercase",fontWeight:700,margin:0}}>
+                  J.P. Morgan · Founder, JP Morgan &amp; Co.
+                </p>
+              </div>
             </div>
 
-            {/* Non-astrological intelligence layers */}
-            <div style={{fontSize:10,color:CL.acc,fontWeight:800,letterSpacing:3,marginBottom:10,textAlign:"center"}}>INTELLIGENCE LAYERS</div>
-            <div style={{display:"flex",flexWrap:"wrap",gap:7,justifyContent:"center"}}>
-              {[
-                {icon:"💰",text:"Finance & market cycle overlays"},
-                {icon:"🏥",text:"Health & surgery timing windows"},
-                {icon:"✈️",text:"Travel departure timing"},
-                {icon:"💼",text:"Career authority approach windows"},
-                {icon:"💕",text:"Venus cycle love timing"},
-                {icon:"📜",text:"Contract & Mercury retrograde alerts"},
-                {icon:"🧠",text:"Mercury sharp — optimal learning windows"},
-                {icon:"🌙",text:"Moon phase decision layering"},
-                {icon:"🔁",text:"Retrograde season risk mapping"},
-                {icon:"📅",text:"30-day best days calendar"},
-                {icon:"👥",text:"Relationship synastry scoring"},
-                {icon:"🎯",text:"% probability — not vague forecasts"},
-              ].map((u,i)=>(
-                <div key={i} style={{
-                  display:"flex",alignItems:"center",gap:6,
-                  background:`#f6ad3c12`,border:`1px solid #f6ad3c25`,
-                  borderRadius:20,padding:"5px 12px",fontSize:11,color:CL.dim,
-                }}>
-                  <span style={{fontSize:12}}>{u.icon}</span>
-                  <span>{u.text}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* ── GOOGLE-STYLE CHAT BAR ── */}
