@@ -1013,7 +1013,7 @@ ${ctx}`,
     flexShrink:0 as const,
   };
 
-  // ── FREE TIER: Google-style chat bar hero + organic upgrade journey ──
+  // ── FREE TIER: Hero + Chat + World Energy + Upgrade Journey ──
   if(tier===0){
     const worldSnippet = data?.worldDomains?.slice(0,3)||[];
     const allWorld = data?.worldDomains||[];
@@ -1029,8 +1029,8 @@ ${ctx}`,
           @keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
           @keyframes barGlow{0%,100%{box-shadow:0 0 20px #9b7fe620,0 4px 40px #00000060}50%{box-shadow:0 0 35px #9b7fe640,0 4px 40px #00000080}}
           @keyframes chipFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-          .free-chat-input:focus{outline:none!important;border-color:#9b7fe660!important}
-          .free-chat-input::placeholder{color:#6b6580}
+          .oracle-input:focus{outline:none!important}
+          .oracle-input::placeholder{color:#6b6580}
           .upgrade-tier:hover{transform:translateY(-2px);border-color:#9b7fe680!important}
           .upgrade-tier{transition:transform 0.2s,border-color 0.2s}
         `}</style>
@@ -1041,38 +1041,40 @@ ${ctx}`,
             <span style={{fontSize:18}}>🔮</span>
             <span style={{fontSize:13,fontWeight:900,color:CL.acc,letterSpacing:2}}>MYORACLE</span>
           </div>
-          <div style={{display:"flex",gap:8,alignItems:"center"}}>
-        </div>
+          <div style={{display:"flex",gap:8,alignItems:"center"}}/>
         </div>
 
-        {/* ── HERO: Orb + Chat Bar ── */}
-        <div style={{width:"100%",maxWidth:680,padding:"52px 20px 0",animation:"fadeUp 0.8s ease both"}}>
+        {/* ── HERO ── */}
+        <div style={{width:"100%",maxWidth:680,padding:"48px 20px 0",animation:"fadeUp 0.8s ease both"}}>
 
-          {/* headline */}
-          <div style={{textAlign:"center",marginBottom:28}}>
-            <h1 style={{fontSize:"clamp(26px,6vw,42px)",fontWeight:900,margin:"0 0 14px",lineHeight:1.1,
+          {/* Headline */}
+          <div style={{textAlign:"center",marginBottom:24}}>
+            <h1 style={{
+              fontSize:"clamp(26px,6vw,42px)",fontWeight:900,margin:"0 0 16px",lineHeight:1.1,
               background:`linear-gradient(135deg,${CL.acc} 0%,#e879a0 50%,${CL.pur} 100%)`,
               backgroundSize:"200% auto",
               WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",
-              animation:"shimmer 4s linear infinite"}}>
+              animation:"shimmer 4s linear infinite",
+            }}>
               What does the universe<br/>have for you today?
             </h1>
-            {/* Sub headline */}
-            <p style={{fontSize:"clamp(14px,2vw,17px)",color:"rgba(232,228,240,0.55)",margin:"0 0 6px",lineHeight:1.7,fontWeight:400}}>
+
+            {/* Sub-headline */}
+            <p style={{fontSize:"clamp(14px,2vw,17px)",color:"rgba(232,228,240,0.55)",margin:"0 0 8px",lineHeight:1.7,fontWeight:400}}>
               Built on <strong style={{color:"rgba(232,228,240,0.9)",fontWeight:700}}>12 simultaneous astrological systems.</strong> Real % probability.
             </p>
-            <p style={{fontSize:"clamp(12px,1.6vw,14px)",color:"rgba(232,228,240,0.38)",margin:"0 0 22px",lineHeight:1.7}}>
-              So any intelligence layer — finance cycles, love timing, career windows, health, travel, contracts — is scored with actual numbers, not vague forecasts.
+            <p style={{fontSize:"clamp(11px,1.5vw,13px)",color:"rgba(232,228,240,0.35)",margin:"0 0 24px",lineHeight:1.8}}>
+              Every intelligence layer — finance cycles, love timing, career windows, health, travel, and contracts — scored with actual numbers, not vague forecasts.
             </p>
 
-            {/* JP Morgan quote — D style */}
+            {/* JP Morgan quote — left-bordered card */}
             <div style={{
               display:"flex",alignItems:"flex-start",gap:12,
               background:`${CL.pur}0d`,
               borderLeft:`3px solid ${CL.pur}55`,
               borderRadius:"0 10px 10px 0",
               padding:"14px 18px",
-              marginBottom:22,
+              marginBottom:24,
               textAlign:"left",
             }}>
               <span style={{fontFamily:"Georgia,serif",fontSize:34,color:`${CL.pur}50`,lineHeight:1,flexShrink:0,marginTop:-4}}>"</span>
@@ -1080,15 +1082,14 @@ ${ctx}`,
                 <p style={{fontFamily:"Georgia,serif",fontSize:15,fontStyle:"italic",color:"rgba(232,228,240,0.75)",lineHeight:1.55,margin:"0 0 6px"}}>
                   Millionaires don't use astrology — billionaires do.
                 </p>
-                <p style={{fontSize:10,letterSpacing:2,color:`${CL.pur}80`,textTransform:"uppercase",fontWeight:700,margin:0}}>
+                <p style={{fontSize:10,letterSpacing:2,color:`${CL.pur}70`,textTransform:"uppercase",fontWeight:700,margin:0}}>
                   J.P. Morgan · Founder, JP Morgan &amp; Co.
                 </p>
               </div>
             </div>
-
           </div>
 
-          {/* ── GOOGLE-STYLE CHAT BAR ── */}
+          {/* ── HERO CHAT BAR — only visible before scroll ── */}
           <div style={{
             display:"flex",alignItems:"center",gap:0,
             background:"#110e22",
@@ -1096,9 +1097,8 @@ ${ctx}`,
             borderRadius:60,
             padding:"6px 8px 6px 6px",
             animation:"barGlow 4s ease infinite",
-            marginBottom:16,
+            marginBottom:14,
           }}>
-            {/* Orb — front left */}
             <button
               onClick={()=>{if(!data)compute();}}
               style={{
@@ -1109,10 +1109,8 @@ ${ctx}`,
                 animation:"orbPulse 3s ease infinite, orbFloat 4s ease infinite",
                 boxShadow:`0 0 20px ${CL.pur}60`,
               }}>🔮</button>
-
-            {/* Input — stretches right */}
             <input
-              className="free-chat-input"
+              className="oracle-input"
               value={chatInput}
               onChange={e=>setChatInput(e.target.value)}
               onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();if(!data)compute();sendChat();}}}
@@ -1124,8 +1122,6 @@ ${ctx}`,
                 outline:"none",lineHeight:1,
               }}
             />
-
-            {/* Send button */}
             <button
               onClick={()=>{if(!data)compute();sendChat();}}
               disabled={!chatInput.trim()||chatLoading}
@@ -1156,13 +1152,15 @@ ${ctx}`,
           </div>
         </div>
 
-        {/* ── CHAT MESSAGES (inline, below bar) ── */}
+        {/* ── CHAT MESSAGES ── */}
         {chatMessages.length>1&&(
           <div style={{width:"100%",maxWidth:640,padding:"20px 20px 0",display:"flex",flexDirection:"column",gap:12,animation:"fadeUp 0.4s ease"}}>
             {chatMessages.map((m,i)=>(
               <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start",gap:10,alignItems:"flex-start"}}>
                 {m.role==="oracle"&&<div style={{fontSize:22,flexShrink:0,marginTop:2}}>🔮</div>}
-                <div style={{maxWidth:"82%",padding:"12px 16px",borderRadius:m.role==="user"?"18px 18px 4px 18px":"4px 18px 18px 18px",
+                <div style={{
+                  maxWidth:"82%",padding:"12px 16px",
+                  borderRadius:m.role==="user"?"18px 18px 4px 18px":"4px 18px 18px 18px",
                   background:m.role==="user"?`linear-gradient(135deg,${CL.pur},${CL.acc})`:m.isError?`${CL.red}15`:CL.card,
                   color:m.role==="user"?"#000":m.isError?CL.red:CL.txt,
                   fontSize:13,lineHeight:1.7,whiteSpace:"pre-wrap",
@@ -1179,7 +1177,7 @@ ${ctx}`,
           </div>
         )}
 
-        {/* ── LIVE WORLD ENERGY (auto-loads) ── */}
+        {/* ── LIVE WORLD ENERGY ── */}
         {allWorld.length>0&&(
           <div style={{width:"100%",maxWidth:640,padding:"32px 20px 0",animation:"fadeUp 0.6s ease 0.2s both"}}>
             <div style={{fontSize:10,color:CL.acc,fontWeight:800,letterSpacing:3,marginBottom:14,textAlign:"center"}}>⚡ TODAY'S WORLD ENERGY — LIVE</div>
@@ -1206,32 +1204,30 @@ ${ctx}`,
               </div>
             )}
             <div style={{textAlign:"center",marginTop:10,fontSize:10,color:CL.dim,fontStyle:"italic"}}>
-              {allWorld.length>3?`+${allWorld.length-3} more domains locked`:"Unlock 9 domains with your birth chart"} · <span style={{color:CL.acc,cursor:"pointer",fontStyle:"normal"}} onClick={()=>setTier(1)}>See full reading →</span>
+              {allWorld.length>3?`+${allWorld.length-3} more domains locked`:"Unlock all 9 domains with your birth chart"} · <span style={{color:CL.acc,cursor:"pointer",fontStyle:"normal"}} onClick={()=>setTier(1)}>See full reading →</span>
             </div>
           </div>
         )}
 
-        {/* ── WHAT YOU'RE MISSING — Feature showcase ── */}
+        {/* ── WHAT'S INSIDE — Feature showcase ── */}
         <div style={{width:"100%",maxWidth:640,padding:"40px 20px 0",animation:"fadeUp 0.6s ease 0.4s both"}}>
           <div style={{fontSize:10,color:CL.pur,fontWeight:800,letterSpacing:3,marginBottom:6,textAlign:"center"}}>WHAT AWAITS YOU INSIDE</div>
           <div style={{fontSize:13,color:CL.dim,textAlign:"center",marginBottom:24,lineHeight:1.6}}>
             This is just the surface. Here's what your full Oracle looks like:
           </div>
-
-          {/* Feature cards — shown like a teaser/preview */}
           <div style={{display:"flex",flexDirection:"column",gap:12}}>
             {[
-              {icon:"🎯",color:CL.grn,title:"% Probability Scores",desc:"Every domain scored 0–100% based on live planetary data. Know your actual odds before signing that contract, booking that date, or making that call. No vague horoscopes — real numbers.",badge:"Basic+"},
-              {icon:"📅",color:CL.acc,title:"Your Best Days This Month",desc:"A 30-day optimal timing map built around YOUR birth chart. See exactly which days peak for love, career moves, financial decisions, creative work, and travel.",badge:"Basic+"},
-              {icon:"🌙",color:CL.pur,title:"Personal Birth Chart Reading",desc:"Natal transits, progressions, solar arcs — all running simultaneously against today's sky. The Oracle knows where every planet was when you were born and what that means right now.",badge:"Basic+"},
-              {icon:"💼",color:"#45d0c8",title:"9 Life Domain Deep Dives",desc:"Love · Career · Finance · Health · Travel · Creativity · Spiritual · Learning · Communication — each scored, detailed, with specific actions tailored to the cosmic weather.",badge:"Plus+"},
-              {icon:"👥",color:"#e879a0",title:"Team & Relationship Mode",desc:"Run compatibility readings for couples, business partners, or whole teams. See where you align and where friction lives — built on real synastry not sun sign matching.",badge:"Pro"},
+              {icon:"🎯",color:CL.grn,title:"% Probability Scores",desc:"Every domain scored 0–100% based on live planetary data. Know your actual odds before signing a contract, booking a date, or making a decision. Real numbers — not vague horoscopes.",badge:"Basic+"},
+              {icon:"📅",color:CL.acc,title:"Your Best Days This Month",desc:"A 30-day optimal timing map built around your birth chart. See exactly which days peak for love, career moves, financial decisions, creative work, and travel.",badge:"Basic+"},
+              {icon:"🌙",color:CL.pur,title:"Personal Birth Chart Reading",desc:"Natal transits, progressions, and solar arcs — all running simultaneously against today's sky. The Oracle knows where every planet was when you were born and what that means right now.",badge:"Basic+"},
+              {icon:"💼",color:"#45d0c8",title:"9 Life Domain Deep Dives",desc:"Love · Career · Finance · Health · Travel · Creativity · Spiritual · Learning · Communication — each domain scored in detail, with specific actions tailored to the current cosmic weather.",badge:"Plus+"},
+              {icon:"👥",color:"#e879a0",title:"Team & Relationship Mode",desc:"Run compatibility readings for couples, business partners, or whole teams. See where you align and where friction lives — built on real synastry, not sun-sign guesswork.",badge:"Pro"},
             ].map((f,i)=>(
               <div key={i} style={{
                 background:CL.card,border:`1px solid ${CL.bdr}`,
+                borderLeft:`3px solid ${f.color}`,
                 borderRadius:16,padding:"16px 18px",
                 display:"flex",gap:14,alignItems:"flex-start",
-                borderLeft:`3px solid ${f.color}`,
               }}>
                 <div style={{fontSize:28,flexShrink:0}}>{f.icon}</div>
                 <div style={{flex:1}}>
@@ -1246,13 +1242,12 @@ ${ctx}`,
           </div>
         </div>
 
-        {/* ── UPGRADE TIERS — Natural, not pushy ── */}
+        {/* ── UPGRADE TIERS ── */}
         <div style={{width:"100%",maxWidth:640,padding:"40px 20px 0",animation:"fadeUp 0.6s ease 0.6s both"}}>
           <div style={{fontSize:10,color:CL.acc,fontWeight:800,letterSpacing:3,marginBottom:6,textAlign:"center"}}>CHOOSE YOUR DEPTH</div>
           <div style={{fontSize:13,color:CL.dim,textAlign:"center",marginBottom:24,lineHeight:1.6}}>
             Start with what calls to you. Upgrade any time.
           </div>
-
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
             {TIERS.filter(t=>t.id>0).map(t=>(
               <div key={t.id} className="upgrade-tier" onClick={()=>setTier(t.id)}
@@ -1270,7 +1265,6 @@ ${ctx}`,
               </div>
             ))}
           </div>
-
           <div style={{textAlign:"center",marginTop:20}}>
             <button onClick={()=>setTier(1)} style={{
               background:`linear-gradient(135deg,${CL.pur},${CL.acc})`,
@@ -1279,7 +1273,7 @@ ${ctx}`,
               cursor:"pointer",letterSpacing:1,width:"100%",
               boxShadow:`0 4px 24px ${CL.pur}40`,
             }}>✨ Start with Basic — $9.99/mo</button>
-            <div style={{fontSize:10,color:CL.dim,marginTop:8}}>Cancel anytime · Instant access · No commitments</div>
+            <div style={{fontSize:10,color:CL.dim,marginTop:8}}>Cancel any time · Instant access · No commitments</div>
           </div>
         </div>
 
@@ -1295,7 +1289,7 @@ ${ctx}`,
           </div>
         </div>
 
-        {/* ── STICKY BOTTOM CHAT BAR (always visible on scroll) ── */}
+        {/* ── STICKY BOTTOM CHAT BAR ── */}
         <div style={{
           position:"fixed",bottom:0,left:0,right:0,zIndex:999,
           background:`linear-gradient(to top,${CL.bg} 60%,${CL.bg}00)`,
@@ -1317,9 +1311,8 @@ ${ctx}`,
               fontSize:22,animation:"orbPulse 3s ease infinite",
               boxShadow:`0 0 14px ${CL.pur}50`,
             }}>🔮</div>
-
             <input
-              className="free-chat-input"
+              className="oracle-input"
               value={chatInput}
               onChange={e=>setChatInput(e.target.value)}
               onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();if(!data)compute();sendChat();}}}
@@ -1331,7 +1324,6 @@ ${ctx}`,
                 outline:"none",
               }}
             />
-
             <button
               onClick={()=>{if(!data)compute();sendChat();}}
               disabled={!chatInput.trim()||chatLoading}
